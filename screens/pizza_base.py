@@ -144,7 +144,6 @@ class PizzaBaseWidget(QWidget):
             msg_box.setIcon(QMessageBox.Icon.Information)
             msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
 
-            # Показываем диалоговое окно
             msg_box.exec()
             return
 
