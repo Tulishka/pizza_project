@@ -5,9 +5,12 @@ from PyQt6.QtWidgets import (
     QSizePolicy
 )
 
+
 class WelcomeWidget(QWidget):
-    def __init__(self, *args):
-        super().__init__(*args)
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.next = None
 
         self.layout = QVBoxLayout(self)
 
@@ -17,11 +20,12 @@ class WelcomeWidget(QWidget):
         self.img_label = QLabel(self)
         pixmap = QPixmap("./images/welcome_image.png")
         self.img_label.setPixmap(pixmap)
+        # self.img_label.setPixmap(pixmap.scaled(600, 400, Qt.AspectRatioMode.KeepAspectRatio))
+
         self.layout.addWidget(self.img_label)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.layout.addSpacerItem(self.verticalSpacer)
-
 
         self.start_button = QPushButton("Создать пиццу мечты", self)
         self.start_button.setStyleSheet("""
@@ -38,6 +42,8 @@ class WelcomeWidget(QWidget):
         }        
         """)
 
+        self.start_button.clicked.connect(self.start_click)
+
         self.layout.addWidget(self.start_button)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
@@ -45,4 +51,8 @@ class WelcomeWidget(QWidget):
 
         self.layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
 
-        self.resize(1024, 728)
+
+        self.resize(self.parent().width(), self.parent().height())
+
+    def start_click(self):
+        self.next()
