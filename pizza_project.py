@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (
 )
 
 from screens.pizza_base import PizzaBaseWidget
+from screens.pizza_editor import PizzaEditorWidget
 from screens.welcome import WelcomeWidget
 
 
@@ -14,30 +15,39 @@ class PizzaConstructor(QWidget):
         super().__init__()
         self.setWindowTitle('Конструктор пиццы')
         self.setGeometry(300, 150, 1024, 728)
-        self.setStyleSheet("background-color: white;")
+        self.setStyleSheet("background-color: white")
         self.setFixedSize(1024, 728)
 
         self.layout = QVBoxLayout(self)
         self.stack_layout = QStackedLayout(self)
+        self.layout.addLayout(self.stack_layout)
 
         self.welcome_widget = WelcomeWidget(self)
         self.welcome_widget.setSizePolicy(QSizePolicy.Policy.Expanding,QSizePolicy.Policy.Expanding)
-        self.stack_layout.setCurrentWidget(self.welcome_widget)
         self.welcome_widget.next = self.pizza_base
         self.stack_layout.addWidget(self.welcome_widget)
 
         self.pizzabase_widget = PizzaBaseWidget(self)
-        self.pizzabase_widget.next = self.pizza_main
+        self.pizzabase_widget.next = self.pizza_edit
         self.pizzabase_widget.setSizePolicy(QSizePolicy.Policy.Expanding,QSizePolicy.Policy.Expanding)
         self.stack_layout.addWidget(self.pizzabase_widget)
 
-        self.layout.addLayout(self.stack_layout)
+        self.pizzaedit_widget = PizzaEditorWidget(self)
+        self.pizzaedit_widget.next = self.pizza_edit
+        self.pizzaedit_widget.setSizePolicy(QSizePolicy.Policy.Expanding,QSizePolicy.Policy.Expanding)
+        self.stack_layout.addWidget(self.pizzaedit_widget)
+
+        self.stack_layout.setCurrentWidget(self.pizzaedit_widget)
+
+
+
+
 
     def pizza_base(self):
         self.stack_layout.setCurrentWidget(self.pizzabase_widget)
 
-    def pizza_main(self):
-        pass
+    def pizza_edit(self):
+        self.stack_layout.setCurrentWidget(self.pizzaedit_widget)
 
 
 
