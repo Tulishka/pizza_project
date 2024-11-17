@@ -17,14 +17,19 @@ class PizzaEditorWidget(QWidget):
         self.next = None
 
         self.back = QWidget(self)
+
         self.back.resize(self.parent().width(), self.parent().height())
         self.back.move(0, 0)
         self.back.setStyleSheet("""
             background-color: white;
             border-radius: 0;
+            padding: 0;
+            margin: 0;
         """)
 
         self.hlayout = QHBoxLayout(self)
+        self.hlayout.setContentsMargins(0, 0, 0, 0)
+
         self.pizza_widget = PizzaWidget(self)
         self.hlayout.addWidget(self.pizza_widget)
 
@@ -35,7 +40,7 @@ class PizzaEditorWidget(QWidget):
             border-radius: 0;
         """)
         self.hlayout.addWidget(self.panel_widget)
-        self.panel_widget.setFixedWidth(420)
+        self.panel_widget.setFixedWidth(390)
 
         self.vlayout = QVBoxLayout(self.panel_widget)
         self.vlayout.setSpacing(12)

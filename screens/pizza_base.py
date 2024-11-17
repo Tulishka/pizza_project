@@ -67,6 +67,9 @@ class PizzaBaseWidget(QWidget):
 
         self.hlayout = QHBoxLayout(self)
         self.vlayout = QVBoxLayout(self)
+
+        self.hlayout.setContentsMargins(0, 0, 0, 0)
+
         self.hlayout.addLayout(self.vlayout)
         self.widget = QWidget(self)
         self.widget.setMaximumSize(500, 390)

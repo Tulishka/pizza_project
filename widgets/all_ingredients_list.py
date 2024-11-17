@@ -1,4 +1,8 @@
-from PyQt6.QtWidgets import QListWidget
+from PyQt6.QtWidgets import QListWidget, QListWidgetItem
+
+
+class IngredientWidget:
+    pass
 
 
 class OrderIngredientsList(QListWidget):
