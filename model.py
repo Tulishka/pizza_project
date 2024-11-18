@@ -38,6 +38,9 @@ class Ingredient(Model):
         self.category_id = category_id
         self.weight = weight
 
+    def get_icon_filename(self):
+        return f"ingredients/{self.name}_icon.png"
+
 
 class AddedIngredient(Model):
     table_name = "pizzas_ingredients"

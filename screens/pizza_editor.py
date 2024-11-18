@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QListWidget
 )
 
+from widgets.choice_ingredient import ChoiceIngredientDialog
 from widgets.pizza_widget import PizzaWidget
 
 PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
@@ -56,6 +57,7 @@ class PizzaEditorWidget(QWidget):
         self.add_ing_layout = QHBoxLayout(self)
         self.vlayout.addLayout(self.add_ing_layout)
         self.add_button = QPushButton("+", self)
+        self.add_button.clicked.connect(self.add_ingredient)
         self.remained_label = QLabel(f"ещё можно добавить\n{'00'} ингредиентов")
         self.remained_label.setStyleSheet("""
             font-size: 16pt
@@ -113,8 +115,26 @@ class PizzaEditorWidget(QWidget):
         self.order_button.setFixedHeight(100)
         self.order_layout.addWidget(self.order_button)
 
-        # self.vlayout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
+        self.background = QWidget(self)
+        self.background.setGeometry(0, 0, self.parent().width(), self.parent().height())
+        self.background.setStyleSheet("""
+                background-color: #DE000000;
+        """)
+        self.background.hide()
+
+    # self.vlayout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
+
+    def show_background(self):
+        self.background.show()
+
+    def hide_background(self):
+        self.background.hide()
+
+    def add_ingredient(self):
+        self.show_background()
+        dialog = ChoiceIngredientDialog(self)
+        dialog.exec()
+        self.hide_background()
 
     def ok_click(self):
-        pass
         self.next()

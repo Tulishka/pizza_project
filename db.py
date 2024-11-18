@@ -1,8 +1,10 @@
+from functools import cache
+
 from create_db import get_db
 from model import Model, Ingredient, IngredientCategory
 
 
-def get_model(model_class: type(Model)):
+def get_model(model_class: type(Model)) -> list[Model]:
     with get_db() as con:
         cur = con.cursor()
 
@@ -18,5 +20,11 @@ def get_model(model_class: type(Model)):
             for values in res
         ]
 
+
 print(get_model(Ingredient))
 print(get_model(IngredientCategory))
+
+
+@cache
+def get_model_cached(model_class: type(Model)) -> list[Model]:
+    return get_model(model_class)
