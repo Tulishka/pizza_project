@@ -1,5 +1,5 @@
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtGui import QPixmap, QMouseEvent
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSizePolicy
 
 import images_rep
@@ -7,13 +7,17 @@ from model import Ingredient
 
 
 class IngredientWidget(QWidget):
+
+    clicked = pyqtSignal(object, name="clicked")
+
     def __init__(self, parent, ingredient: Ingredient):
         super().__init__(parent)
+        self.ingredient = ingredient
         self.resize(147, 174)
         self.setFixedSize(147, 174)
         self.setStyleSheet("""
             #back, QWidget {
-                border-radius: 20px;
+                border-radius: 15px;
                 background-color: #EFEFEF;
             }
             #back:hover {
@@ -33,5 +37,11 @@ class IngredientWidget(QWidget):
         self.vlayout.addWidget(self.icon, alignment=Qt.AlignmentFlag.AlignHCenter)
         self.vlayout.addWidget(QLabel(ingredient.title, self.widget), alignment=Qt.AlignmentFlag.AlignHCenter)
         self.vlayout.addWidget(QLabel(f"{ingredient.price} ₽", self.widget), alignment=Qt.AlignmentFlag.AlignHCenter)
+
+
+
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.clicked.emit(self.ingredient)
 
         # self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)

@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import (
 )
 
 from widgets.choice_ingredient import ChoiceIngredientDialog
+from widgets.ingredient_options import IngredientOptionsDialog
 from widgets.pizza_widget import PizzaWidget
 
 PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
@@ -102,7 +103,7 @@ class PizzaEditorWidget(QWidget):
                 color: #black;
                 background-color: #6CE08F;
                 border: 2px solid #00000000;
-                border-radius: 20px;
+                border-radius: 15px;
                 padding: 10px;
                 font-size: 30px;
 
@@ -132,9 +133,17 @@ class PizzaEditorWidget(QWidget):
 
     def add_ingredient(self):
         self.show_background()
-        dialog = ChoiceIngredientDialog(self)
-        dialog.exec()
-        self.hide_background()
+        try:
+            choice_ingredient = ChoiceIngredientDialog(self)
+            if choice_ingredient.exec() == 0:
+                return
+
+            choice_options = IngredientOptionsDialog(self, choice_ingredient.ingredient)
+            if choice_options.exec() == 0:
+                return
+
+        finally:
+            self.hide_background()
 
     def ok_click(self):
         self.next()

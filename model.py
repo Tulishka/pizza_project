@@ -1,3 +1,4 @@
+import math
 from datetime import datetime
 
 from const import MeasureUnit
@@ -24,6 +25,7 @@ class IngredientCategory(Model):
 
 class Ingredient(Model):
     table_name = "ingredients"
+    BIG_PORTION_MULTIPLIER = 1.5
 
     def __init__(self, id: int, name: str, title: str, serving_size: int, measure_unit: MeasureUnit | str,
                  price: int, category_id: int, weight: int, count: int):
@@ -40,6 +42,18 @@ class Ingredient(Model):
 
     def get_icon_filename(self):
         return f"ingredients/{self.name}_icon.png"
+
+    def get_portion_size(self, portion_size):
+        if not portion_size:
+            return self.serving_size
+
+        return math.ceil(self.serving_size * Ingredient.BIG_PORTION_MULTIPLIER)
+
+    def get_portion_price(self, portion_size):
+        if not portion_size:
+            return self.price
+
+        return math.ceil(self.price * Ingredient.BIG_PORTION_MULTIPLIER)
 
 
 class AddedIngredient(Model):

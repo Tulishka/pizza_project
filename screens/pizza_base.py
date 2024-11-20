@@ -17,7 +17,7 @@ class PizzaBaseWidget(QWidget):
         self.next = None
 
         self.setStyleSheet("""
-            QWidget { border-radius: 16px; }
+            QWidget { border-radius: 15px; }
             
             QPushButton {
                 background-color: #ECECEC;

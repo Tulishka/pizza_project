@@ -37,7 +37,7 @@ class ChoiceIngredientDialog(QDialog):
                 color: #black;
                 background-color: #E4E4E4;
                 border: 2px solid #00000000;
-                border-radius: 20px;
+                border-radius: 15px;
                 padding: 10px;
                 font-size: 24px;
 
@@ -47,6 +47,7 @@ class ChoiceIngredientDialog(QDialog):
             } 
         """)
         self.cancel_btn.setMaximumWidth(120)
+        self.cancel_btn.clicked.connect(self.cancel_click)
 
         self.top_layout.addWidget(self.label)
         self.top_layout.addWidget(self.cancel_btn)
@@ -54,7 +55,7 @@ class ChoiceIngredientDialog(QDialog):
 
         self.setStyleSheet("""
             #dialog{
-                border-radius: 12px;
+                border-radius: 15px;
             }
                 
             QPushButton {
@@ -80,9 +81,10 @@ class ChoiceIngredientDialog(QDialog):
                 
         """)
 
-        ingreds = db.get_model_cached(Ingredient)
+        all_ingredients = db.get_model_cached(Ingredient)
 
         self.setObjectName("dialog")
+        self.ingredient = None
 
         self.category_layout = QHBoxLayout(self)
         self.central_layout.addLayout(self.category_layout)
@@ -107,11 +109,20 @@ class ChoiceIngredientDialog(QDialog):
             grid_layout.setSpacing(8)
 
             self.stack_layout.addWidget(grid_widget)
-            for i, ing in enumerate(ind for ind in ingreds if ind.category_id == category.id):
-                grid_layout.addWidget(IngredientWidget(self, ing), i // 4, i % 4)
+            for i, ing in enumerate(ind for ind in all_ingredients if ind.category_id == category.id):
+                iw = IngredientWidget(self, ing)
+                iw.clicked.connect(self.ingredient_selected)
+                grid_layout.addWidget(iw, i // 4, i % 4)
 
         self.stack_layout.setCurrentIndex(0)
         self.categories.buttonClicked.connect(self.category_clicked)
 
     def category_clicked(self, button):
         self.stack_layout.setCurrentIndex(button.index)
+
+    def cancel_click(self):
+        self.reject()
+
+    def ingredient_selected(self, ingredient: Ingredient):
+        self.ingredient=ingredient
+        self.accept()
