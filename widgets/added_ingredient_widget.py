@@ -29,14 +29,15 @@ class AddedIngredientWidget(QWidget):
             }
             
             #remove_btn {
-                color: #AAAAAA;
-                background: #7F7F7F;
+                color: #3D3D3D;
+                background-color: #AFAFAF;
                 padding: 12px 20px;
+                border: 2px solid #00000000;
                 border-radius: 15px;
             }
             
             #remove_btn:hover {
-                background: #4F4F4F;
+                background: #8F8F8F;
                 border: 2px solid #666666
             }
             
