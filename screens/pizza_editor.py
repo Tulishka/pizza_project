@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QListWidget
 )
 
+from model import current_pizza, AddedIngredient
 from widgets.choice_ingredient import ChoiceIngredientDialog
 from widgets.ingredient_options import IngredientOptionsDialog
 from widgets.pizza_widget import PizzaWidget
@@ -9,7 +10,6 @@ from widgets.pizza_widget import PizzaWidget
 PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
 PIZZA_SIZES = [25, 30, 35, 40]
 PIZZA_SOUSES = ["Томатный", "Сливочный"]
-
 
 class PizzaEditorWidget(QWidget):
     def __init__(self, parent):
@@ -134,13 +134,25 @@ class PizzaEditorWidget(QWidget):
     def add_ingredient(self):
         self.show_background()
         try:
-            choice_ingredient = ChoiceIngredientDialog(self)
-            if choice_ingredient.exec() == 0:
+            ing_dlg = ChoiceIngredientDialog(self)
+            if ing_dlg.exec() == 0:
                 return
 
-            choice_options = IngredientOptionsDialog(self, choice_ingredient.ingredient)
-            if choice_options.exec() == 0:
+            opt_dlg = IngredientOptionsDialog(self, ing_dlg.ingredient)
+            if opt_dlg.exec() == 0:
                 return
+
+            ing_count = ing_dlg.ingredient.get_portion_size(opt_dlg.selected_size)
+            positions = current_pizza.gen_ingredient_positions(ing_dlg.ingredient, ing_count)
+
+            item = AddedIngredient(
+                None, None,
+                ing_dlg.ingredient.id,
+                len(current_pizza.added_ingredients),
+                ing_count,
+                positions
+            )
+            current_pizza.added_ingredients.append(item)
 
         finally:
             self.hide_background()

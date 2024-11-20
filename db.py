@@ -21,10 +21,6 @@ def get_model(model_class: type(Model)) -> list[Model]:
         ]
 
 
-print(get_model(Ingredient))
-print(get_model(IngredientCategory))
-
-
 @cache
 def get_model_cached(model_class: type(Model)) -> list[Model]:
     return get_model(model_class)

@@ -69,7 +69,7 @@ class IngredientOptionsDialog(QDialog):
 
         self.img = QLabel(self)
         self.img.setFixedSize(120, 90)
-        self.img.setPixmap(images_rep.get_pixmap(ingredient.get_icon_filename()).scaled(90, 90))
+        self.img.setPixmap(images_rep.get_pixmap(ingredient.get_image_filename()).scaled(90, 90))
 
         self.standard = QPushButton(f"Стандартная\n{ingredient.get_portion_size(0)} шт.")
         self.standard.setFixedWidth(190)

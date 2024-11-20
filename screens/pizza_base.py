@@ -1,13 +1,15 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QPixmap, QFont
+from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import (
-    QWidget, QPushButton, QVBoxLayout, QLabel, QSpacerItem,
-    QSizePolicy, QHBoxLayout, QButtonGroup, QMessageBox
+    QWidget, QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QButtonGroup, QMessageBox
 )
+
+from model import new_pizza
 
 PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
 PIZZA_SIZES = [25, 30, 35, 40]
 PIZZA_SOUSES = ["Томатный", "Сливочный"]
+
 
 class PizzaBaseWidget(QWidget):
     def __init__(self, parent):
@@ -64,7 +66,6 @@ class PizzaBaseWidget(QWidget):
             border-radius: 0;
         """)
 
-
         self.hlayout = QHBoxLayout(self)
         self.vlayout = QVBoxLayout(self)
 
@@ -78,7 +79,7 @@ class PizzaBaseWidget(QWidget):
         self.vlayout.addWidget(self.widget)
         self.widget_layout = QVBoxLayout(self.widget)
         self.widget_layout.setSpacing(12)
-        self.widget.setContentsMargins(8,8,8,8)
+        self.widget.setContentsMargins(8, 8, 8, 8)
         self.heading = QLabel("Выберите основу пиццы:", self)
         font = QFont()
         font.setPointSize(20)
@@ -120,7 +121,6 @@ class PizzaBaseWidget(QWidget):
             self.souse_layout.addWidget(button)
             self.souse_group.addButton(button)
 
-
         self.widget_layout.addLayout(self.dough_layout)
         self.widget_layout.addLayout(self.size_layout)
         self.widget_layout.addWidget(self.souse_label)
@@ -131,7 +131,6 @@ class PizzaBaseWidget(QWidget):
         self.ok_button.setMinimumWidth(100)
         self.ok_button.clicked.connect(self.ok_click)
         self.ok_button.setObjectName("okButton")
-
 
         self.widget_layout.addWidget(self.ok_button, alignment=Qt.AlignmentFlag.AlignRight)
 
@@ -149,5 +148,7 @@ class PizzaBaseWidget(QWidget):
 
             msg_box.exec()
             return
+
+        new_pizza(dough, size, souse)
 
         self.next()

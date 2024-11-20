@@ -1,3 +1,4 @@
+import json
 import math
 from datetime import datetime
 
@@ -28,20 +29,23 @@ class Ingredient(Model):
     BIG_PORTION_MULTIPLIER = 1.5
 
     def __init__(self, id: int, name: str, title: str, serving_size: int, measure_unit: MeasureUnit | str,
-                 price: int, category_id: int, weight: int, count: int):
+                 price: int, category_id: int, weight: int, count: int, auto_place_method: str):
         super().__init__(id)
         self.name = name
         self.count = count
         self.serving_size = serving_size
         self.title = title
         self.measure_unit = measure_unit if isinstance(measure_unit, MeasureUnit) else MeasureUnit(measure_unit)
-
+        self.auto_place_method = auto_place_method
         self.price = price
         self.category_id = category_id
         self.weight = weight
 
     def get_icon_filename(self):
         return f"ingredients/{self.name}_icon.png"
+
+    def get_image_filename(self):
+        return f"ingredients/{self.name}.png"
 
     def get_portion_size(self, portion_size):
         if not portion_size:
@@ -60,18 +64,17 @@ class AddedIngredient(Model):
     table_name = "pizzas_ingredients"
 
     def __init__(self, id: int, pizza_id: int, ingredient_id: int, addition_order: int, count: int,
-                 placement_method: str, rotation_angle: int, coord: tuple):
+                 position: str | list[list[int]]):
         super().__init__(id)
         self.ingredient_id = ingredient_id
+        self.pizza_id = pizza_id
         self.addition_order = addition_order
         self.count = count
-        self.placement_method = placement_method
-        self.rotation_angle = rotation_angle
-        self.coord = coord
+        self.position = json.loads(position) if type(position) is str else position
 
 
 class BaseIngredient(Model):
-    def __init__(self, id: int, unit_weight: int, title: str, img: str):
+    def __init__(self, id: int, unit_weight: float, title: str, img: str):
         super().__init__(id)
         self.unit_weight = unit_weight
         self.title = title
@@ -87,17 +90,38 @@ class Sauce(BaseIngredient):
 
 
 class Pizza(Model):
-    def __init__(self, id: int, dough_type: DoughType, size: int, sauce: Sauce):
+    def __init__(self, id: int, dough_type_id: int, size: int, souse_id: int):
         super().__init__(id)
-        self.dough_type = dough_type
+        self.dough_type_id = dough_type_id
         self.size = size
-        self.souse = sauce
-        self.added_ingredients = []
+        self.souse_id = souse_id
+        self.added_ingredients: list[AddedIngredient] = []
 
 
 class Order(Model):
-    def __init__(self, id: int, date: datetime, pizza: Pizza, status: str):
+    def __init__(self, id: int | None, date: datetime, pizza: Pizza, status: str):
         super().__init__(id)
         self.date = date
         self.pizza = pizza
         self.status = status
+
+
+CM_TO_PIX = {
+    25: 0.625,
+    30: 0.75,
+    35: 0.875,
+    40: 1
+}
+
+PIZZA_MAX_SIZE_PIX = 600
+PIZZA_MAX_DIAM_PIX = PIZZA_MAX_SIZE_PIX * 0.875
+
+current_pizza: Pizza = None
+
+
+def new_pizza(dough_type: int, size: int, souse: int):
+    global current_pizza
+    current_pizza = Pizza(None, dough_type, size, souse)
+
+
+new_pizza(1, 25, 1)
