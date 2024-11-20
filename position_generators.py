@@ -26,3 +26,6 @@ class PositionGenerator:
 
     def mosaic(self, pizza: Pizza, ingredient: Ingredient, ing_count: int) -> list[list[int]]:
         return []
+
+
+pos_gen = PositionGenerator()

@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import (
 )
 
 from model import current_pizza, AddedIngredient
+from position_generators import pos_gen
 from widgets.choice_ingredient import ChoiceIngredientDialog
 from widgets.ingredient_options import IngredientOptionsDialog
 from widgets.pizza_widget import PizzaWidget
@@ -143,7 +144,7 @@ class PizzaEditorWidget(QWidget):
                 return
 
             ing_count = ing_dlg.ingredient.get_portion_size(opt_dlg.selected_size)
-            positions = current_pizza.gen_ingredient_positions(ing_dlg.ingredient, ing_count)
+            positions = pos_gen.gen_ingredient_positions(ing_dlg.ingredient, ing_count)
 
             item = AddedIngredient(
                 None, None,
