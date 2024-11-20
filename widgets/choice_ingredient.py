@@ -81,7 +81,7 @@ class ChoiceIngredientDialog(QDialog):
                 
         """)
 
-        all_ingredients = db.get_model_cached(Ingredient)
+        all_ingredients = db.get_model_cached(Ingredient).values()
 
         self.setObjectName("dialog")
         self.ingredient = None
@@ -93,7 +93,7 @@ class ChoiceIngredientDialog(QDialog):
         self.stack_layout = QStackedLayout(self)
         self.central_layout.addLayout(self.stack_layout)
 
-        for idx, category in enumerate(db.get_model_cached(model.IngredientCategory)):
+        for idx, category in enumerate(db.get_model_cached(model.IngredientCategory).values()):
             button = QPushButton(category.title, self)
             button.setObjectName("category")
             button.index = idx

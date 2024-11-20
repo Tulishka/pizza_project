@@ -83,6 +83,7 @@ def create_db():
             ingredient_id INTEGER NOT NULL,
             addition_order INTEGER NOT NULL,
             count INTEGER NOT NULL,
+            portion_size INTEGER NOT NULL,
             position TEXT NOT NULL
         );
         

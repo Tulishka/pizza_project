@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import (
 
 from model import current_pizza, AddedIngredient
 from position_generators import pos_gen
+from widgets.added_ingredients_list import AddedIngredientsList
 from widgets.choice_ingredient import ChoiceIngredientDialog
 from widgets.ingredient_options import IngredientOptionsDialog
 from widgets.pizza_widget import PizzaWidget
@@ -11,6 +12,7 @@ from widgets.pizza_widget import PizzaWidget
 PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
 PIZZA_SIZES = [25, 30, 35, 40]
 PIZZA_SOUSES = ["Томатный", "Сливочный"]
+
 
 class PizzaEditorWidget(QWidget):
     def __init__(self, parent):
@@ -53,7 +55,8 @@ class PizzaEditorWidget(QWidget):
         """)
         self.vlayout.addWidget(self.ingredients_label)
 
-        self.list_widget = QListWidget()
+        self.list_widget = AddedIngredientsList(self)
+        self.list_widget.itemRemoved.connect(self.item_removed)
         self.vlayout.addWidget(self.list_widget)
 
         self.add_ing_layout = QHBoxLayout(self)
@@ -144,19 +147,27 @@ class PizzaEditorWidget(QWidget):
                 return
 
             ing_count = ing_dlg.ingredient.get_portion_size(opt_dlg.selected_size)
-            positions = pos_gen.gen_ingredient_positions(ing_dlg.ingredient, ing_count)
+            positions = pos_gen.gen_ingredient_positions(current_pizza, ing_dlg.ingredient, ing_count)
 
             item = AddedIngredient(
-                None, None,
-                ing_dlg.ingredient.id,
-                len(current_pizza.added_ingredients),
-                ing_count,
-                positions
+                0, 0,
+                ingredient_id=ing_dlg.ingredient.id,
+                addition_order=len(current_pizza.added_ingredients),
+                count=ing_count,
+                portion_size=opt_dlg.selected_size,
+                position=positions
             )
             current_pizza.added_ingredients.append(item)
+            self.list_widget.add_ingredient(item)
+            self.update()
 
         finally:
             self.hide_background()
 
     def ok_click(self):
         self.next()
+
+
+    def item_removed(self, remove_item: AddedIngredient):
+        current_pizza.added_ingredients.remove(remove_item)
+        self.update()

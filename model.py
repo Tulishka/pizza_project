@@ -64,12 +64,13 @@ class AddedIngredient(Model):
     table_name = "pizzas_ingredients"
 
     def __init__(self, id: int, pizza_id: int, ingredient_id: int, addition_order: int, count: int,
-                 position: str | list[list[int]]):
+                 portion_size: int, position: str | list[list[int]]):
         super().__init__(id)
         self.ingredient_id = ingredient_id
         self.pizza_id = pizza_id
         self.addition_order = addition_order
         self.count = count
+        self.portion_size = portion_size
         self.position = json.loads(position) if type(position) is str else position
 
 
@@ -106,7 +107,7 @@ class Order(Model):
         self.status = status
 
 
-CM_TO_PIX = {
+PIZZA_SIZE_KOEF = {
     25: 0.625,
     30: 0.75,
     35: 0.875,
@@ -116,12 +117,9 @@ CM_TO_PIX = {
 PIZZA_MAX_SIZE_PIX = 600
 PIZZA_MAX_DIAM_PIX = PIZZA_MAX_SIZE_PIX * 0.875
 
-current_pizza: Pizza = None
+current_pizza: Pizza = Pizza(0, 1, 40, 1)
 
 
 def new_pizza(dough_type: int, size: int, souse: int):
     global current_pizza
-    current_pizza = Pizza(None, dough_type, size, souse)
-
-
-new_pizza(1, 25, 1)
+    current_pizza = Pizza(0, dough_type, size, souse)
