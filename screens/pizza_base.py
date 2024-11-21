@@ -32,12 +32,14 @@ class PizzaBaseWidget(QWidget):
                 border-color: #555555;
             } 
             
+
             QPushButton:checked {
                 border: 2px solid #333333;
+                color: white;
             }
             
             #dough {
-                font-size: 32px;
+                font-size: 28px;
                 background-color: #D9CAA0;
             } 
                         
@@ -50,6 +52,19 @@ class PizzaBaseWidget(QWidget):
                 font-size: 20px;
                 background-color: #ECECEC;
             } 
+
+            #dough:checked {
+                background-color: #998A60;
+            } 
+                        
+            #size:checked {
+                background-color: #ACACAC;
+            } 
+            
+            #souses:checked {
+                background-color: #9C9C9C;
+            } 
+
 
             #okButton {
                 font-size: 20px;
@@ -119,7 +134,7 @@ class PizzaBaseWidget(QWidget):
         for souse in get_model_cached(Souse).values():
             button = QPushButton(souse.title, self)
             button.souse_id = souse.id
-            button.setObjectName("souse")
+            button.setObjectName("souses")
             button.setCheckable(True)
             self.souse_layout.addWidget(button)
             self.souse_group.addButton(button)

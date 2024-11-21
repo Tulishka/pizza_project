@@ -1,6 +1,7 @@
+import const
 from utils.sqllite_cm import SqliteCm
 
-SQL_SCRIPT_PATH = "./db_init"
+SQL_SCRIPT_PATH = const.APP_DIR + "db_init"
 
 
 def get_db():

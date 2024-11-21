@@ -1,3 +1,5 @@
+import os
+
 MAIN_WINDOW_WIDTH = 1024
 MAIN_WINDOW_HEIGHT = 728
 
@@ -17,3 +19,5 @@ PIZZA_MAX_INGREDIENTS = {
     35: 12,
     40: 15
 }
+
+APP_DIR = os.path.dirname(__file__) + "/"

@@ -2,8 +2,9 @@ from functools import cache
 
 from PyQt6.QtGui import QPixmap, QImage
 
-IMAGES_PATH = "./images/"
+import const
 
+IMAGES_PATH = const.APP_DIR + "images/"
 
 @cache
 def get_pixmap(file_name: str) -> QPixmap:

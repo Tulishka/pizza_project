@@ -1,6 +1,6 @@
 from functools import cache
 
-from db_init.create_db import get_db
+from utils.create_db import get_db
 from model import Model, Pizza
 
 

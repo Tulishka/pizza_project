@@ -5,6 +5,8 @@ from PyQt6.QtWidgets import (
     QSizePolicy
 )
 
+import const
+
 
 class WelcomeWidget(QWidget):
     def __init__(self, parent):
@@ -32,7 +34,7 @@ class WelcomeWidget(QWidget):
         self.layout.addSpacerItem(self.verticalSpacer)
 
         self.img_label = QLabel(self)
-        pixmap = QPixmap("./images/welcome_image.png")
+        pixmap = QPixmap(const.APP_DIR + "images/welcome_image.png")
         self.img_label.setPixmap(pixmap)
 
         self.layout.addWidget(self.img_label)
