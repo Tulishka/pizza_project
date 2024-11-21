@@ -6,14 +6,7 @@ class PaymentWidget(QWidget):
         super().__init__(parent)
 
         self.setStyleSheet("""
-            #back {
-                background-color: white;
-                border-radius: 0;
-                padding: 0;
-                margin: 0;
-            }
-
-            #ingredients_label {
+            #label {
                 font-size: 36pt;
             }
         """)
