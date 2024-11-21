@@ -114,8 +114,9 @@ class Pizza(Model):
 class Order(Model):
     table_name = "orders"
 
-    def __init__(self, id: int | None, date: str, pizza_id: int, status: str):
+    def __init__(self, id: int | None, date: str, pizza_id: int, total_sum: int, status: str):
         super().__init__(id)
         self.date = date
         self.pizza_id = pizza_id
         self.status = status
+        self.total_sum = total_sum

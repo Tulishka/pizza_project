@@ -20,7 +20,7 @@ def current_pizza() -> Pizza:
 
 def new_order():
     db.cancel_uncompleted_orders()
-    State.order = Order(0, datetime.now().isoformat(), 0, OrderStatus.NEW)
+    State.order = Order(0, datetime.now().isoformat(), 0, 0, OrderStatus.NEW)
     db.insert_model(State.order)
 
 
@@ -49,9 +49,10 @@ def set_pizza_picture(filename, capturedImage):
     State.pizza_image = capturedImage
 
 
-def save_order():
-    db.save_pizza(current_pizza())
-    State.order.pizza_id = current_pizza().id
+def save_order(pizza, total_sum):
+    db.save_pizza(pizza)
+    State.order.pizza_id = pizza.id
+    State.order.total_sum = total_sum
     update_model(State.order)
 
 

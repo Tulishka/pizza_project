@@ -4,7 +4,6 @@ from PyQt6.QtWidgets import QVBoxLayout, QLabel, QSpacerItem, QSizePolicy
 import state
 from payment_api import PaymentApi
 from screens.BaseScreen import BaseScreen
-from utils import image_lib
 
 
 class PaymentWidget(BaseScreen):
@@ -32,9 +31,8 @@ class PaymentWidget(BaseScreen):
 
     def activated(self):
         print("start payment")
-        total_sum = state.current_pizza_total_cost()
-        self.price.setText(f"Оплатите {total_sum} ₽")
-        self.paymentApi.start_pay(total_sum)
+        self.price.setText(f"Оплатите {state.State.order.total_sum} ₽")
+        self.paymentApi.start_pay(state.State.order.total_sum)
 
     def pay_done(self, result: bool):
         if result:
