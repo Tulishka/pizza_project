@@ -2,9 +2,9 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter, QImage, QTransform
 from PyQt6.QtWidgets import QWidget, QSizePolicy, QSlider
 
-import images_rep
+import image_lib
 from db import get_model_cached
-from images_rep import get_image
+from image_lib import get_image
 from model import Ingredient, current_pizza, PIZZA_MAX_SIZE_PIX, PIZZA_SIZE_KOEF, PIZZA_MAX_DIAM_PIX, DoughType, Souse
 
 
@@ -72,7 +72,7 @@ class PizzaWidget(QWidget):
         self.components = []
         for ing_ind, ad_ing in enumerate(current_pizza().added_ingredients):
             ing = self.all_ingredients_dict[ad_ing.ingredient_id]
-            img = images_rep.get_image(ing.get_image_filename())
+            img = image_lib.get_image(ing.get_image_filename())
 
             for i in range(ad_ing.count):
                 self.components.append(PizzaComponent(img, ing_ind, i))

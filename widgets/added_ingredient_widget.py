@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QPushButton, QSpacerItem
 
-import images_rep
+import image_lib
 from model import Ingredient, AddedIngredient
 
 
@@ -58,7 +58,7 @@ class AddedIngredientWidget(QWidget):
 
         self.icon = QLabel(self.widget)
         self.icon.setObjectName("icon")
-        self.icon.setPixmap(images_rep.get_pixmap(ingredient.get_icon_filename()).scaled(32, 32))
+        self.icon.setPixmap(image_lib.get_pixmap(ingredient.get_icon_filename()).scaled(32, 32))
         self.icon.setFixedSize(32, 32)
 
         self.remove_btn = QPushButton("X", self.widget)

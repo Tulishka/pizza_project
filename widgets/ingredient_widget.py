@@ -2,7 +2,7 @@ from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QPixmap, QMouseEvent
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSizePolicy
 
-import images_rep
+import image_lib
 from model import Ingredient
 
 
@@ -35,7 +35,7 @@ class IngredientWidget(QWidget):
 
         self.vlayout = QVBoxLayout(self.widget)
         self.icon = QLabel(self.widget)
-        self.icon.setPixmap(images_rep.get_pixmap(ingredient.get_icon_filename()))
+        self.icon.setPixmap(image_lib.get_pixmap(ingredient.get_icon_filename()))
         self.icon.setFixedSize(64, 64)
         self.vlayout.addWidget(self.icon, alignment=Qt.AlignmentFlag.AlignHCenter)
         self.vlayout.addWidget(QLabel(ingredient.title, self.widget), alignment=Qt.AlignmentFlag.AlignHCenter)

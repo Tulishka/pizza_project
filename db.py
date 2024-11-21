@@ -1,7 +1,7 @@
 from functools import cache
 
-from create_db import get_db
-from model import Model, Ingredient, IngredientCategory, Pizza
+from db_init.create_db import get_db
+from model import Model, Pizza
 
 
 def get_model(model_class: type(Model)) -> dict[int, Model]:

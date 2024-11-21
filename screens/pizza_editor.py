@@ -140,7 +140,7 @@ class PizzaEditorWidget(QWidget):
                 return
 
             ing_count = ing_dlg.ingredient.get_portion_size(opt_dlg.selected_size)
-            positions = pos_gen.gen_ingredient_positions(current_pizza(), ing_dlg.ingredient, ing_count)
+            positions = pos_gen.generate_positions(current_pizza(), ing_dlg.ingredient, ing_count)
 
             item = AddedIngredient(
                 0, 0,

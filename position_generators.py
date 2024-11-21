@@ -1,7 +1,7 @@
 import math
 import random
 
-import images_rep
+import image_lib
 from model import Ingredient, Pizza, PIZZA_MAX_DIAM_PIX
 
 
@@ -9,22 +9,17 @@ class PositionGenerator:
     def __init__(self):
         self.params = {}
 
-    def gen_ingredient_positions(self, pizza: Pizza, ingredient: Ingredient, ing_count: int) -> list[list[int]]:
+    def generate_positions(self, pizza: Pizza, ingredient: Ingredient, ing_count: int) -> list[list[int]]:
         # method = getattr(self, ingredient.auto_place_method)
         method = self.random
         return method(pizza, ingredient, ing_count)
 
     def random(self, pizza: Pizza, ingredient: Ingredient, ing_count: int) -> list[list[int]]:
-        image = images_rep.get_pixmap(ingredient.get_image_filename())
-
+        image = image_lib.get_pixmap(ingredient.get_image_filename())
         item_radius = math.hypot(image.width() / 2, image.height() / 2) / PIZZA_MAX_DIAM_PIX * 40
-
         max_r = math.ceil(pizza.size / 2 - 1 - item_radius)
-
         results = []
-
         item_radius /= 2
-
         while ing_count:
             for _ in range(10):
                 radius = random.randint(0, max_r * 10) / 10
@@ -37,7 +32,6 @@ class PositionGenerator:
                         break
                 else:
                     break
-
             results.append([x, y, rotate_item])
             ing_count -= 1
 
