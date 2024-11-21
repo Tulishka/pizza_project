@@ -4,7 +4,8 @@ from PyQt6.QtWidgets import QWidget, QSizePolicy, QSlider
 
 import images_rep
 from db import get_model_cached
-from model import Ingredient, current_pizza, PIZZA_MAX_SIZE_PIX, PIZZA_SIZE_KOEF, PIZZA_MAX_DIAM_PIX
+from images_rep import get_image
+from model import Ingredient, current_pizza, PIZZA_MAX_SIZE_PIX, PIZZA_SIZE_KOEF, PIZZA_MAX_DIAM_PIX, DoughType, Souse
 
 
 class PizzaComponent:
@@ -34,6 +35,8 @@ class PizzaWidget(QWidget):
 
 
         self.all_ingredients_dict = get_model_cached(Ingredient)
+        self.all_dough_dict = get_model_cached(DoughType)
+        self.all_souses_dict = get_model_cached(Souse)
 
         self.dragging = None
         self.last_item = None
@@ -59,10 +62,10 @@ class PizzaWidget(QWidget):
         w = int(PIZZA_MAX_SIZE_PIX * PIZZA_SIZE_KOEF[current_pizza().size])
         h = int(PIZZA_MAX_SIZE_PIX * PIZZA_SIZE_KOEF[current_pizza().size])
 
-        self.pizza_base = QImage(f"images/ingredients/{'pizza_big_base'}.png")
+        self.pizza_base = get_image(f"ingredients/{self.all_dough_dict[current_pizza().dough_type_id].img}")
         self.pizza_base = self.pizza_base.scaled(w, h)
 
-        self.souse_img = QImage(f"images/ingredients/{'tomato_souse'}.png")
+        self.souse_img = get_image(f"ingredients/{self.all_souses_dict[current_pizza().souse_id].img}")
         self.souse_img = self.souse_img.scaled(w, h)
 
     def setup_components(self):
