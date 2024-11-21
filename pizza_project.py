@@ -42,7 +42,7 @@ class PizzaConstructor(QWidget):
         self.pizzaedit_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.stack_layout.addWidget(self.pizzaedit_widget)
 
-        self.stack_layout.setCurrentWidget(self.pizzaedit_widget)
+        self.stack_layout.setCurrentWidget(self.welcome_widget)
 
     def pizza_base(self):
         self.stack_layout.setCurrentWidget(self.pizzabase_widget)
