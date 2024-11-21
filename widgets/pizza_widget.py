@@ -1,3 +1,5 @@
+import math
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter, QImage, QTransform
 from PyQt6.QtWidgets import QWidget, QSlider
@@ -133,6 +135,15 @@ class PizzaWidget(QWidget):
             y = y + self.dragging.image.height() / 2
             x = x / const.PIZZA_MAX_DIAM_PIX * 40
             y = y / const.PIZZA_MAX_DIAM_PIX * 40
+
+            item_radius = math.hypot(self.dragging.image.width() / 2, self.dragging.image.height() / 2)
+            item_radius = item_radius / const.PIZZA_MAX_DIAM_PIX * 40
+
+            max_radius = current_pizza().size / 2 - item_radius / 2
+            cur_radius = math.hypot(x, y)
+            if cur_radius > max_radius:
+                x = x / cur_radius * max_radius
+                y = y / cur_radius * max_radius
 
             ad_ing = current_pizza().added_ingredients[self.dragging.ingredient_index]
 

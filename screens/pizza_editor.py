@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout
 )
 
+import const
 import db
 from db import get_model_cached
 from model import AddedIngredient, Ingredient
@@ -185,6 +186,12 @@ class PizzaEditorWidget(QWidget):
             total_sum += self.all_ingredients_dict[ingredient.ingredient_id].get_portion_price(ingredient.portion_size)
         self.res_sum_label.setText(f"К оплате:\n{total_sum} ₽")
         self.pizza_widget.setup_components()
+        remain = const.PIZZA_MAX_INGREDIENTS[current_pizza().size] - len(current_pizza().added_ingredients)
+        if remain > 0:
+            self.remained_label.setText(f"ещё можно добавить\n{remain} ингредиентов")
+        else:
+            self.remained_label.setText(f"Вы добавили максимум\nингредиентов!")
+        self.add_button.setEnabled(remain > 0)
         self.update()
 
     def item_removed(self, remove_item: AddedIngredient):
