@@ -115,13 +115,25 @@ def insert_data():
             INSERT OR IGNORE INTO ingredients (name,title,serving_size,measure_unit,price,category_id,weight, auto_place_method)
                 VALUES 
                 ('mozzarella','Моцарелла', 4, '{MeasureUnit.PIECES}', 89, 3, 40, 'circle'),
+                ('mozzarella_mini','Моцарелла мини', 6, '{MeasureUnit.PIECES}', 89, 3, 39, 'random'),
                 ('olive','Оливки', 8, '{MeasureUnit.PIECES}', 69, 1, 24, 'random'),
                 ('pepperoni','Пепперони', 6, '{MeasureUnit.PIECES}', 89, 2, 48, 'mosaic'),
-                ('pineapple','Ананас', 7, '{MeasureUnit.PIECES}', 69, 1, 56, 'random'),
+                ('pineapple','Ананасы', 7, '{MeasureUnit.PIECES}', 69, 1, 56, 'random'),
                 ('shrimp_royal','Королевские креветки', 3, '{MeasureUnit.PIECES}', 189, 2, 75, 'circle'),
                 ('shrimp','Креветки', 5, '{MeasureUnit.PIECES}', 119, 2, 50, 'circle'),
-                ('tomato','Томаты', 6, '{MeasureUnit.PIECES}', 79, 1, 60, 'circle');     
-                       
+                ('sweet_pepper','Сладкий перец', 3, '{MeasureUnit.PIECES}', 79, 1, 110, 'mosaic'),
+                ('pickled_cucumbers','Маринованные огурцы', 6, '{MeasureUnit.PIECES}', 79, 1, 29, 'random'),
+                ('oregano','Орегано', 5, '{MeasureUnit.PIECES}', 79, 1, 18, 'random'),
+                ('onion','Лук', 5, '{MeasureUnit.PIECES}', 79, 1, 38, 'random'),
+                ('jalapeno_pepper','Перец халапеньо', 6, '{MeasureUnit.PIECES}', 79, 1, 35, 'random'),
+                ('ham','Ветчина', 5, '{MeasureUnit.PIECES}', 89, 2, 125, 'circle'),
+                ('garlic','Чеснок', 8, '{MeasureUnit.PIECES}', 69, 1, 28, 'random'),
+                ('chicken_breast','Куринная грудка', 4, '{MeasureUnit.PIECES}', 89, 2, 128, 'circle'),
+                ('cheddar_cheese','Сыр чеддер', 4, '{MeasureUnit.PIECES}', 89, 3, 79, 'circle'),
+                ('champignons','Шампиньоны', 6, '{MeasureUnit.PIECES}', 69, 1, 65, 'random'),
+                ('bacon','Бекон', 5, '{MeasureUnit.PIECES}', 89, 2, 48, 'circle'),
+                ('tomato','Томаты', 5, '{MeasureUnit.PIECES}', 79, 1, 130, 'circle');
+                                       
             INSERT OR IGNORE INTO dought_types (id, title, unit_weight, img) 
                 VALUES 
                 (1, 'Традиционная', 1, 'pizza_big_base.png'), 
