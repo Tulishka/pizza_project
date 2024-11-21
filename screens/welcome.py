@@ -6,9 +6,10 @@ from PyQt6.QtWidgets import (
 )
 
 import const
+from screens.BaseScreen import BaseScreen
 
 
-class WelcomeWidget(QWidget):
+class WelcomeWidget(BaseScreen):
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -25,8 +26,6 @@ class WelcomeWidget(QWidget):
                 color: white;
             }        
         """)
-
-        self.next = None
 
         self.layout = QVBoxLayout(self)
 
@@ -56,4 +55,4 @@ class WelcomeWidget(QWidget):
         self.resize(self.parent().width(), self.parent().height())
 
     def start_click(self):
-        self.next()
+        self.next.emit()

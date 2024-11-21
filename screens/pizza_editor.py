@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import (
 import const
 import state
 from model import AddedIngredient
+from screens.BaseScreen import BaseScreen
 from state import current_pizza
 from utils.position_generators import pos_gen
 from widgets.added_ingredients_list import AddedIngredientsList
@@ -15,7 +16,7 @@ from widgets.ingredient_options import IngredientOptionsDialog
 from widgets.pizza_widget import PizzaWidget
 
 
-class PizzaEditorWidget(QWidget):
+class PizzaEditorWidget(BaseScreen):
     def __init__(self, parent):
         super().__init__(parent)
         self.resize(self.parent().width(), self.parent().height())
@@ -77,8 +78,6 @@ class PizzaEditorWidget(QWidget):
             
             
         """)
-
-        self.next = None
 
         self.back = QWidget(self)
 
@@ -142,12 +141,24 @@ class PizzaEditorWidget(QWidget):
         self.background.hide()
 
         self.total_sum = 0
+        self.prev_button = None
+
+    def setup_prev_button(self, btn):
+        super().setup_prev_button(btn)
+        self.prev_button = btn
+
+    def activated(self):
+        self.pizza_widget.setup_pizza_base()
+        self.pizza_updated()
+
 
     def show_background(self):
         self.background.show()
+        self.prev_button.hide()
 
     def hide_background(self):
         self.background.hide()
+        self.prev_button.show()
 
     def add_ingredient(self):
         self.show_background()
@@ -185,7 +196,7 @@ class PizzaEditorWidget(QWidget):
         filename = f"{const.PIZZAS_PICTURES_DIR}/pizza{randint(1000, 9999)}.png"
         capturedImage.save(filename)
         state.set_pizza_picture(filename, capturedImage)
-        self.next()
+        self.next.emit()
 
     def pizza_updated(self):
         total_sum = state.current_pizza_total_cost()

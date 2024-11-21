@@ -7,16 +7,15 @@ from PyQt6.QtWidgets import (
 import state
 from db import get_model_cached
 from model import DoughType, Souse
+from screens.BaseScreen import BaseScreen
 
 PIZZA_SIZES = [25, 30, 35, 40]
 
 
-class PizzaBaseWidget(QWidget):
+class PizzaBaseWidget(BaseScreen):
     def __init__(self, parent):
         super().__init__(parent)
         self.resize(self.parent().width(), self.parent().height())
-
-        self.next = None
 
         self.setStyleSheet("""
             QWidget { border-radius: 15px; }
@@ -40,7 +39,7 @@ class PizzaBaseWidget(QWidget):
             
             #dough {
                 font-size: 28px;
-                background-color: #D9CAA0;
+                background-color: #ECECEC;
             } 
                         
             #size {
@@ -54,11 +53,11 @@ class PizzaBaseWidget(QWidget):
             } 
 
             #dough:checked {
-                background-color: #998A60;
+                background-color: #9C9C9C;
             } 
                         
             #size:checked {
-                background-color: #ACACAC;
+                background-color: #9C9C9C;
             } 
             
             #souses:checked {
@@ -168,5 +167,5 @@ class PizzaBaseWidget(QWidget):
             return
 
         state.new_pizza(dough.dough_id, size.pizza_size, souse.souse_id)
+        self.next.emit()
 
-        self.next()

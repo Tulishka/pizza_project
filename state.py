@@ -8,6 +8,7 @@ class State:
     current_pizza: Pizza = Pizza(0, 1, 40, 1)
     pizza_image: QPixmap
     pizza_image_file: str
+    order_number: int = 0
 
 
 def current_pizza() -> Pizza:
@@ -16,6 +17,7 @@ def current_pizza() -> Pizza:
 
 def new_pizza(dough_type: int, size: int, souse: int):
     State.current_pizza = Pizza(0, dough_type, size, souse)
+    State.order_number += 1
 
 
 def current_pizza_total_cost() -> int:

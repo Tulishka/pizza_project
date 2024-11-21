@@ -1,11 +1,13 @@
 import sys
 
-from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
-    QWidget, QApplication, QVBoxLayout, QStackedLayout, QSizePolicy
+    QWidget, QApplication, QVBoxLayout, QStackedLayout, QSizePolicy, QPushButton
 )
 
+import state  # создать состояние
+
 import const
+from screens import BaseScreen
 from screens.complete import CompleteWidget
 from screens.payment import PaymentWidget
 from screens.pizza_base import PizzaBaseWidget
@@ -27,53 +29,68 @@ class PizzaConstructor(QWidget):
         self.stack_layout = QStackedLayout(self)
         self.vlayout.addLayout(self.stack_layout)
 
-        self.welcome_widget = WelcomeWidget(self)
-        self.welcome_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.welcome_widget.next = self.pizza_base
-        self.stack_layout.addWidget(self.welcome_widget)
+        self.prev_button = QPushButton("< Назад", self)
+        self.prev_button.move(12, 12)
+        self.prev_button.setMinimumSize(130, 50)
+        self.prev_button.hide()
+        self.prev_button.clicked.connect(self.prev_clicked)
 
-        self.pizzabase_widget = PizzaBaseWidget(self)
-        self.pizzabase_widget.next = self.pizza_edit
-        self.pizzabase_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.stack_layout.addWidget(self.pizzabase_widget)
+        self.screens_cls: list[BaseScreen] = [WelcomeWidget, PizzaBaseWidget, PizzaEditorWidget, PaymentWidget,
+                                              CompleteWidget]
+        self.screens = {}
 
-        self.pizzaedit_widget = PizzaEditorWidget(self)
-        self.pizzaedit_widget.next = self.pizza_edit
-        self.pizzaedit_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.stack_layout.addWidget(self.pizzaedit_widget)
+        prev = None
+        for screen_cls in self.screens_cls:
+            screen_widget = screen_cls(self)
+            screen_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+            screen_widget.next.connect(self.next_screen)
+            screen_widget.prev.connect(self.prev_screen)
 
-        self.payment_widget = PaymentWidget(self)
-        self.payment_widget.next = self.pizza_edit
-        self.payment_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.stack_layout.addWidget(self.payment_widget)
+            self.stack_layout.addWidget(screen_widget)
+            self.screens[screen_cls] = [screen_widget, prev, None]
+            prev = screen_widget
 
-        self.complete_widget = CompleteWidget(self)
-        self.complete_widget.next = self.pizza_edit
-        self.complete_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self.stack_layout.addWidget(self.complete_widget)
+        for idx in range(len(self.screens_cls) - 1):
+            self.screens[self.screens_cls[idx]][2] = self.screens[self.screens_cls[idx + 1]][0]
 
-        self.stack_layout.setCurrentWidget(self.complete_widget)
+        self.stack_layout.setCurrentWidget(self.screens[self.screens_cls[0]][0])
 
-    def pizza_base(self):
-        self.stack_layout.setCurrentWidget(self.pizzabase_widget)
+    def activate_screen(self, screen: BaseScreen):
+        self.stack_layout.setCurrentWidget(screen)
+        screen.activated()
 
-    def pizza_edit(self):
-        self.pizzaedit_widget.pizza_updated()
-        self.pizzaedit_widget.pizza_widget.setup_pizza_base()
-        self.stack_layout.setCurrentWidget(self.pizzaedit_widget)
+        if self.screens[type(screen)][1] is not None:
+            screen.setup_prev_button(self.prev_button)
+            self.prev_button.show()
+            self.prev_button.raise_()
+        else:
+            self.prev_button.hide()
 
-        # self.setWindowState(Qt.WindowState.WindowFullScreen)
-        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
+    def next_screen(self):
+        screen_cls = type(self.sender())
+        next_scr = self.screens[screen_cls][2]
+        if not next_scr:
+            next_scr = self.screens[self.screens_cls[0]][0]
+        self.activate_screen(next_scr)
+
+    def prev_screen(self):
+        screen_cls = type(self.sender())
+        prev_scr = self.screens[screen_cls][1]
+        if prev_scr:
+            self.activate_screen(prev_scr)
+
+    def prev_clicked(self):
+        self.stack_layout.currentWidget().prev_clicked()
 
 
-def func(*args):
+def exception_logger(*args):
     print(*args)
     sys.__excepthook__(*args)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    sys.excepthook = func
+    sys.excepthook = exception_logger
     ex = PizzaConstructor()
     ex.show()
     sys.exit(app.exec())
