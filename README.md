@@ -32,6 +32,17 @@
 
 [экраны](docs/screens.png)
 
+### Скрины готовых пиц
+
+<img src="images/welcome_image.png" width="200">
+<img src="images/welcome_image2.png" width="200">
+<img src="images/welcome_image3.png" width="200">
+<img src="images/welcome_image4.png" width="200">
+<img src="images/welcome_image5.png" width="200">
+<img src="images/welcome_image6.png" width="200">
+
+[экраны](docs/screens.png)
+
 ### Технологии и библиотеки
 
 * Python 3.11
