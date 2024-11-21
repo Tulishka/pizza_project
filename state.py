@@ -1,9 +1,13 @@
+from PyQt6.QtGui import QPixmap
+
 import db
 from model import Pizza, Ingredient, DoughType, Souse
 
 
 class State:
     current_pizza: Pizza = Pizza(0, 1, 40, 1)
+    pizza_image: QPixmap
+    pizza_image_file: str
 
 
 def current_pizza() -> Pizza:
@@ -28,3 +32,8 @@ def current_pizza_ingredients_count() -> int:
 all_ingredients_dict = db.get_model_cached(Ingredient)
 all_dough_dict = db.get_model_cached(DoughType)
 all_souses_dict = db.get_model_cached(Souse)
+
+
+def set_pizza_picture(filename, capturedImage):
+    State.pizza_image_file = filename
+    State.pizza_image = capturedImage

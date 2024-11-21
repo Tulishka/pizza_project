@@ -1,3 +1,5 @@
+from random import randint
+
 from PyQt6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout
 )
@@ -132,6 +134,7 @@ class PizzaEditorWidget(QWidget):
         self.order_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
         self.order_button.setFixedHeight(100)
         self.order_layout.addWidget(self.order_button)
+        self.order_button.clicked.connect(self.order_click)
 
         self.background = QWidget(self)
         self.background.setGeometry(0, 0, self.parent().width(), self.parent().height())
@@ -176,7 +179,12 @@ class PizzaEditorWidget(QWidget):
         finally:
             self.hide_background()
 
-    def ok_click(self):
+    def order_click(self):
+        self.pizza_widget.angleSlider.hide()
+        capturedImage = self.pizza_widget.grab()
+        filename = f"{const.PIZZAS_PICTURES_DIR}/pizza{randint(1000, 9999)}.png"
+        capturedImage.save(filename)
+        state.set_pizza_picture(filename, capturedImage)
         self.next()
 
     def pizza_updated(self):

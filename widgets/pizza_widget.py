@@ -75,6 +75,7 @@ class PizzaWidget(QWidget):
         self.last_item = None
         self.angleSlider.hide()
 
+
     def paintEvent(self, event):
         qp = QPainter()
         qp.begin(self)
@@ -153,6 +154,7 @@ class PizzaWidget(QWidget):
 
     def slider_changed(self):
         slider = self.sender()
+
         if self.last_item is not None:
             self.last_item[0].position[self.last_item[1]][2] = slider.value()
             self.update()
