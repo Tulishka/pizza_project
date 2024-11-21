@@ -56,7 +56,7 @@ def create_db():
             auto_place_method TEXT NOT NULL
         );
         
-        CREATE TABLE IF NOT EXISTS dought_types (
+        CREATE TABLE IF NOT EXISTS dough_types (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             unit_weight REAL NOT NULL,
@@ -134,7 +134,7 @@ def insert_data():
                 ('bacon','Бекон', 5, '{MeasureUnit.PIECES}', 89, 2, 48, 'circle'),
                 ('tomato','Томаты', 5, '{MeasureUnit.PIECES}', 79, 1, 130, 'circle');
                                        
-            INSERT OR IGNORE INTO dought_types (id, title, unit_weight, img) 
+            INSERT OR IGNORE INTO dough_types (id, title, unit_weight, img) 
                 VALUES 
                 (1, 'Традиционная', 1, 'pizza_big_base.png'), 
                 (2, 'Тонкое тесто', 0.9, 'pizza_small_base.png');

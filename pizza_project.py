@@ -48,6 +48,7 @@ class PizzaConstructor(QWidget):
         self.stack_layout.setCurrentWidget(self.pizzabase_widget)
 
     def pizza_edit(self):
+        self.pizzaedit_widget.pizza_widget.setup_pizza_base()
         self.stack_layout.setCurrentWidget(self.pizzaedit_widget)
 
         # self.setWindowState(Qt.WindowState.WindowFullScreen)

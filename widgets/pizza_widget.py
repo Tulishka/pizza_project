@@ -31,14 +31,7 @@ class PizzaWidget(QWidget):
         self.setObjectName("pizzaWidget")
         self.setMinimumSize(PIZZA_MAX_SIZE_PIX, PIZZA_MAX_SIZE_PIX)
 
-        w = int(PIZZA_MAX_SIZE_PIX * PIZZA_SIZE_KOEF[current_pizza.size])
-        h = int(PIZZA_MAX_SIZE_PIX * PIZZA_SIZE_KOEF[current_pizza.size])
 
-        self.pizza_base = QImage(f"images/ingredients/{'pizza_big_base'}.png")
-        self.pizza_base = self.pizza_base.scaled(w, h)
-
-        self.souse_img = QImage(f"images/ingredients/{'tomato_souse'}.png")
-        self.souse_img = self.souse_img.scaled(w, h)
 
         self.all_ingredients_dict = get_model_cached(Ingredient)
 
@@ -61,9 +54,20 @@ class PizzaWidget(QWidget):
 
         self.components = []
 
+
+    def setup_pizza_base(self):
+        w = int(PIZZA_MAX_SIZE_PIX * PIZZA_SIZE_KOEF[current_pizza().size])
+        h = int(PIZZA_MAX_SIZE_PIX * PIZZA_SIZE_KOEF[current_pizza().size])
+
+        self.pizza_base = QImage(f"images/ingredients/{'pizza_big_base'}.png")
+        self.pizza_base = self.pizza_base.scaled(w, h)
+
+        self.souse_img = QImage(f"images/ingredients/{'tomato_souse'}.png")
+        self.souse_img = self.souse_img.scaled(w, h)
+
     def setup_components(self):
         self.components = []
-        for ing_ind, ad_ing in enumerate(current_pizza.added_ingredients):
+        for ing_ind, ad_ing in enumerate(current_pizza().added_ingredients):
             ing = self.all_ingredients_dict[ad_ing.ingredient_id]
             img = images_rep.get_image(ing.get_image_filename())
 
@@ -80,7 +84,7 @@ class PizzaWidget(QWidget):
         qp.drawImage(cx - self.pizza_base.width() // 2, cy - self.pizza_base.height() // 2, self.souse_img)
 
         for comp in self.components:
-            ad_ing = current_pizza.added_ingredients[comp.ingredient_index]
+            ad_ing = current_pizza().added_ingredients[comp.ingredient_index]
             x, y, angle = ad_ing.position[comp.item_index]
             img = comp.get_image(angle)
             w, h = img.width() / 2, img.height() / 2
@@ -96,7 +100,7 @@ class PizzaWidget(QWidget):
             cx, cy = self.width() // 2, self.height() // 2
             pos = event.position()
             for comp in reversed(self.components):
-                ad_ing = current_pizza.added_ingredients[comp.ingredient_index]
+                ad_ing = current_pizza().added_ingredients[comp.ingredient_index]
                 x, y, angle = ad_ing.position[comp.item_index]
                 img = comp.get_image(angle)
 
@@ -128,7 +132,7 @@ class PizzaWidget(QWidget):
             x = x / PIZZA_MAX_DIAM_PIX * 40
             y = y / PIZZA_MAX_DIAM_PIX * 40
 
-            ad_ing = current_pizza.added_ingredients[self.dragging.ingredient_index]
+            ad_ing = current_pizza().added_ingredients[self.dragging.ingredient_index]
 
             ad_ing.position[self.dragging.item_index][0] = x
             ad_ing.position[self.dragging.item_index][1] = y

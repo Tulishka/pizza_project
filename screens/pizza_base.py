@@ -4,11 +4,12 @@ from PyQt6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QButtonGroup, QMessageBox
 )
 
-from model import new_pizza
+from db import get_model, get_model_cached
+from model import new_pizza, DoughType, Souse
 
-PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
 PIZZA_SIZES = [25, 30, 35, 40]
-PIZZA_SOUSES = ["Томатный", "Сливочный"]
+# PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
+# PIZZA_SOUSES = ["Томатный", "Сливочный"]
 
 
 class PizzaBaseWidget(QWidget):
@@ -90,8 +91,9 @@ class PizzaBaseWidget(QWidget):
         self.dough_group = QButtonGroup(self)
         self.dough_layout.setObjectName("dough_group")
 
-        for name in PIZZA_DOUGHS:
-            button = QPushButton(name, self)
+        for dtype in get_model_cached(DoughType).values():
+            button = QPushButton(dtype.title, self)
+            button.dough_id = dtype.id
             button.setObjectName("dough")
             button.setCheckable(True)
             self.dough_layout.addWidget(button)
@@ -114,8 +116,9 @@ class PizzaBaseWidget(QWidget):
 
         self.souse_layout = QHBoxLayout(self)
         self.souse_group = QButtonGroup(self)
-        for name in PIZZA_SOUSES:
-            button = QPushButton(name, self)
+        for souse in get_model_cached(Souse).values():
+            button = QPushButton(souse.title, self)
+            button.souse_id = souse.id
             button.setObjectName("souse")
             button.setCheckable(True)
             self.souse_layout.addWidget(button)
@@ -149,6 +152,6 @@ class PizzaBaseWidget(QWidget):
             msg_box.exec()
             return
 
-        new_pizza(dough, size, souse)
+        new_pizza(dough.dough_id, size.pizza_size, souse.souse_id)
 
         self.next()

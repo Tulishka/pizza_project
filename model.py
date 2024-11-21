@@ -83,14 +83,15 @@ class BaseIngredient(Model):
 
 
 class DoughType(BaseIngredient):
-    pass
+    table_name = "dough_types"
 
 
-class Sauce(BaseIngredient):
-    pass
+class Souse(BaseIngredient):
+    table_name = "souses"
 
 
 class Pizza(Model):
+    table_name = "pizzas"
     def __init__(self, id: int, dough_type_id: int, size: int, souse_id: int):
         super().__init__(id)
         self.dough_type_id = dough_type_id
@@ -100,6 +101,7 @@ class Pizza(Model):
 
 
 class Order(Model):
+    table_name = "orders"
     def __init__(self, id: int | None, date: datetime, pizza: Pizza, status: str):
         super().__init__(id)
         self.date = date
@@ -117,9 +119,12 @@ PIZZA_SIZE_KOEF = {
 PIZZA_MAX_SIZE_PIX = 600
 PIZZA_MAX_DIAM_PIX = PIZZA_MAX_SIZE_PIX * 0.875
 
-current_pizza: Pizza = Pizza(0, 1, 40, 1)
+class State:
+    current_pizza: Pizza = Pizza(0, 1, 40, 1)
 
+
+def current_pizza() -> Pizza:
+    return State.current_pizza
 
 def new_pizza(dough_type: int, size: int, souse: int):
-    global current_pizza
-    current_pizza = Pizza(0, dough_type, size, souse)
+    State.current_pizza = Pizza(0, dough_type, size, souse)
