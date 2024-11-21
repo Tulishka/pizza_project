@@ -4,8 +4,9 @@ from PyQt6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QButtonGroup, QMessageBox
 )
 
-from db import get_model, get_model_cached
-from model import new_pizza, DoughType, Souse
+import state
+from db import get_model_cached
+from model import DoughType, Souse
 
 
 PIZZA_SIZES = [25, 30, 35, 40]
@@ -152,6 +153,6 @@ class PizzaBaseWidget(QWidget):
             msg_box.exec()
             return
 
-        new_pizza(dough.dough_id, size.pizza_size, souse.souse_id)
+        state.new_pizza(dough.dough_id, size.pizza_size, souse.souse_id)
 
         self.next()

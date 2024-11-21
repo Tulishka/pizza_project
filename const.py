@@ -1,9 +1,12 @@
-from enum import Enum
+MAIN_WINDOW_WIDTH = 1024
+MAIN_WINDOW_HEIGHT = 728
 
+PIZZA_SIZE_KOEF = {
+    25: 0.625,
+    30: 0.75,
+    35: 0.875,
+    40: 1
+}
 
-class MeasureUnit(str, Enum):
-    PIECES = "шт."
-    GRAM = "гр."
-
-    def __str__(self):
-        return self.value
+PIZZA_MAX_SIZE_PIX = 600
+PIZZA_MAX_DIAM_PIX = PIZZA_MAX_SIZE_PIX * 0.875

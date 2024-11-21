@@ -2,7 +2,7 @@ import json
 import math
 from datetime import datetime
 
-from const import MeasureUnit
+from utils.enums import MeasureUnit
 
 
 class Model:
@@ -92,6 +92,7 @@ class Souse(BaseIngredient):
 
 class Pizza(Model):
     table_name = "pizzas"
+
     def __init__(self, id: int, dough_type_id: int, size: int, souse_id: int):
         super().__init__(id)
         self.dough_type_id = dough_type_id
@@ -102,29 +103,9 @@ class Pizza(Model):
 
 class Order(Model):
     table_name = "orders"
+
     def __init__(self, id: int | None, date: datetime, pizza: Pizza, status: str):
         super().__init__(id)
         self.date = date
         self.pizza = pizza
         self.status = status
-
-
-PIZZA_SIZE_KOEF = {
-    25: 0.625,
-    30: 0.75,
-    35: 0.875,
-    40: 1
-}
-
-PIZZA_MAX_SIZE_PIX = 600
-PIZZA_MAX_DIAM_PIX = PIZZA_MAX_SIZE_PIX * 0.875
-
-class State:
-    current_pizza: Pizza = Pizza(0, 1, 40, 1)
-
-
-def current_pizza() -> Pizza:
-    return State.current_pizza
-
-def new_pizza(dough_type: int, size: int, souse: int):
-    State.current_pizza = Pizza(0, dough_type, size, souse)

@@ -1,11 +1,12 @@
 from PyQt6.QtWidgets import (
-    QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QListWidget
+    QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout
 )
 
 import db
 from db import get_model_cached
-from model import current_pizza, AddedIngredient, Ingredient
-from position_generators import pos_gen
+from model import AddedIngredient, Ingredient
+from state import current_pizza
+from utils.position_generators import pos_gen
 from widgets.added_ingredients_list import AddedIngredientsList
 from widgets.choice_ingredient import ChoiceIngredientDialog
 from widgets.ingredient_options import IngredientOptionsDialog

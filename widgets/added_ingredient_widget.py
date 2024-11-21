@@ -1,7 +1,7 @@
-from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QPushButton, QSpacerItem
 
-import image_lib
+from utils import image_lib
 from model import Ingredient, AddedIngredient
 
 

@@ -1,4 +1,4 @@
-from sqllite_cm import SqliteCm
+from utils.sqllite_cm import SqliteCm
 
 SQL_SCRIPT_PATH = "./db_init"
 

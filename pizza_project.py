@@ -5,6 +5,7 @@ from PyQt6.QtWidgets import (
     QWidget, QApplication, QVBoxLayout, QStackedLayout, QSizePolicy
 )
 
+import const
 from screens.pizza_base import PizzaBaseWidget
 from screens.pizza_editor import PizzaEditorWidget
 from screens.welcome import WelcomeWidget
@@ -14,18 +15,15 @@ class PizzaConstructor(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Конструктор пиццы')
-        self.setGeometry(300, 150, 1024, 728)
+        self.setGeometry(300, 150, const.MAIN_WINDOW_WIDTH, const.MAIN_WINDOW_HEIGHT)
         self.setStyleSheet("background-color: white")
-        self.setFixedSize(1024, 728)
+        self.setFixedSize(const.MAIN_WINDOW_WIDTH, const.MAIN_WINDOW_HEIGHT)
 
-
-        self.layout = QVBoxLayout(self)
-
-        self.layout.setContentsMargins(0, 0, 0, 0)
-
+        self.vlayout = QVBoxLayout(self)
+        self.vlayout.setContentsMargins(0, 0, 0, 0)
 
         self.stack_layout = QStackedLayout(self)
-        self.layout.addLayout(self.stack_layout)
+        self.vlayout.addLayout(self.stack_layout)
 
         self.welcome_widget = WelcomeWidget(self)
         self.welcome_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)

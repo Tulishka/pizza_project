@@ -1,13 +1,9 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QSizePolicy, QButtonGroup, \
-    QGridLayout, QStackedLayout, QWidget, QSpacerItem
+    QSpacerItem
 
-import db
-import image_lib
-import model
-from db import get_model
+from utils import image_lib
 from model import Ingredient
-from widgets.ingredient_widget import IngredientWidget
 
 
 class IngredientOptionsDialog(QDialog):

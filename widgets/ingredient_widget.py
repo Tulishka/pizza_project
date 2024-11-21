@@ -1,8 +1,8 @@
 from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QPixmap, QMouseEvent
+from PyQt6.QtGui import QMouseEvent
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSizePolicy
 
-import image_lib
+from utils import image_lib
 from model import Ingredient
 
 

@@ -1,8 +1,9 @@
 import math
 import random
 
-import image_lib
-from model import Ingredient, Pizza, PIZZA_MAX_DIAM_PIX
+from utils import image_lib
+from model import Ingredient, Pizza
+import const
 
 
 class PositionGenerator:
@@ -16,7 +17,7 @@ class PositionGenerator:
 
     def random(self, pizza: Pizza, ingredient: Ingredient, ing_count: int) -> list[list[int]]:
         image = image_lib.get_pixmap(ingredient.get_image_filename())
-        item_radius = math.hypot(image.width() / 2, image.height() / 2) / PIZZA_MAX_DIAM_PIX * 40
+        item_radius = math.hypot(image.width() / 2, image.height() / 2) / const.PIZZA_MAX_DIAM_PIX * 40
         max_r = math.ceil(pizza.size / 2 - 1 - item_radius)
         results = []
         item_radius /= 2
