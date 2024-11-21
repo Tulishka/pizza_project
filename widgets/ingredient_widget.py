@@ -21,6 +21,9 @@ class IngredientWidget(QWidget):
             #back:hover {
                 border: 2px solid #555555
             }
+            QLabel {
+                font-size: 13px;
+            }
         """)
 
         self.setMaximumWidth(147)

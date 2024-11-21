@@ -58,7 +58,7 @@ class ChoiceIngredientDialog(QDialog):
         """)
 
         self.setContentsMargins(0, 0, 0, 0)
-        self.resize(720, 600)
+        self.resize(720, 620)
         self.move(parent.width() // 2 - self.width() // 2, parent.height() // 2 - self.height() // 2)
 
         self.central_layout = QVBoxLayout(self)

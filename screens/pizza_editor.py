@@ -193,10 +193,11 @@ class PizzaEditorWidget(BaseScreen):
     def order_click(self):
         self.pizza_widget.angleSlider.hide()
         capturedImage = self.pizza_widget.grab()
-        filename = f"{const.PIZZAS_PICTURES_DIR}/pizza{randint(1000, 9999)}.png"
+        state.save_order(current_pizza(), state.current_pizza_total_cost())
+
+        filename = f"{const.PIZZAS_PICTURES_DIR}/pizza_order_{state.State.order.id}_{randint(1000, 9999)}.png"
         capturedImage.save(filename)
         state.set_pizza_picture(filename, capturedImage)
-        state.save_order(current_pizza(), state.current_pizza_total_cost())
 
         self.next.emit()
 
