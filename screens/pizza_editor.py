@@ -96,7 +96,7 @@ class PizzaEditorWidget(QWidget):
         self.order_button = QPushButton("Заказать", self)
         self.order_button.setStyleSheet("""
             QPushButton {
-                color: #black;
+                color: black;
                 background-color: #6CE08F;
                 border: 2px solid #00000000;
                 border-radius: 15px;

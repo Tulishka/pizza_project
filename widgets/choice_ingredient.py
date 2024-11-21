@@ -34,7 +34,7 @@ class ChoiceIngredientDialog(QDialog):
         self.cancel_btn = QPushButton("X", self)
         self.cancel_btn.setStyleSheet("""
             QPushButton {
-                color: #black;
+                color: black;
                 background-color: #E4E4E4;
                 border: 2px solid #00000000;
                 border-radius: 15px;
