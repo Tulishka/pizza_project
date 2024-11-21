@@ -6,6 +6,8 @@ from PyQt6.QtWidgets import (
 )
 
 import const
+from screens.complete import CompleteWidget
+from screens.payment import PaymentWidget
 from screens.pizza_base import PizzaBaseWidget
 from screens.pizza_editor import PizzaEditorWidget
 from screens.welcome import WelcomeWidget
@@ -40,7 +42,17 @@ class PizzaConstructor(QWidget):
         self.pizzaedit_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.stack_layout.addWidget(self.pizzaedit_widget)
 
-        self.stack_layout.setCurrentWidget(self.welcome_widget)
+        self.payment_widget = PaymentWidget(self)
+        self.payment_widget.next = self.pizza_edit
+        self.payment_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.stack_layout.addWidget(self.payment_widget)
+
+        self.complete_widget = CompleteWidget(self)
+        self.complete_widget.next = self.pizza_edit
+        self.complete_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.stack_layout.addWidget(self.complete_widget)
+
+        self.stack_layout.setCurrentWidget(self.complete_widget)
 
     def pizza_base(self):
         self.stack_layout.setCurrentWidget(self.pizzabase_widget)

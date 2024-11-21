@@ -1,4 +1,7 @@
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout
+
+import state
 
 
 class PaymentWidget(QWidget):
@@ -6,15 +9,15 @@ class PaymentWidget(QWidget):
         super().__init__(parent)
 
         self.setStyleSheet("""
-            #label {
-                font-size: 36pt;
+            QLabel {
+                font-size: 30pt;
             }
         """)
 
         self.next = None
 
-        self.hlayout = QHBoxLayout(self)
-        self.Vlayout = QVBoxLayout(self)
-        self.hlayout.addLayout(self.vlayout)
+        self.vlayout = QVBoxLayout(self)
+        self.price = QLabel(f"Оплатите {state.current_pizza_total_cost()} ₽", self)
         self.label = QLabel("Следуйте указаниям\nна терминале оплаты", self)
-        self.vlayout.addWidget(self.label)
+        self.vlayout.addWidget(self.price, alignment=Qt.AlignmentFlag.AlignHCenter)
+        self.vlayout.addWidget(self.label, alignment=Qt.AlignmentFlag.AlignHCenter)
