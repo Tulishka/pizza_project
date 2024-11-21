@@ -13,8 +13,8 @@ class PaymentWidget(QWidget):
 
         self.next = None
 
-        self.vlayout = QVBoxLayout(self)
         self.hlayout = QHBoxLayout(self)
-        self.vlayout.addLayout(self.hlayout)
+        self.Vlayout = QVBoxLayout(self)
+        self.hlayout.addLayout(self.vlayout)
         self.label = QLabel("Следуйте указаниям\nна терминале оплаты", self)
-        self.hlayout.addWidget(self.label)
+        self.vlayout.addWidget(self.label)
