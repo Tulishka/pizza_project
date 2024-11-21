@@ -9,10 +9,6 @@ from widgets.choice_ingredient import ChoiceIngredientDialog
 from widgets.ingredient_options import IngredientOptionsDialog
 from widgets.pizza_widget import PizzaWidget
 
-PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
-PIZZA_SIZES = [25, 30, 35, 40]
-PIZZA_SOUSES = ["Томатный", "Сливочный"]
-
 
 class PizzaEditorWidget(QWidget):
     def __init__(self, parent):
@@ -147,17 +143,17 @@ class PizzaEditorWidget(QWidget):
                 return
 
             ing_count = ing_dlg.ingredient.get_portion_size(opt_dlg.selected_size)
-            positions = pos_gen.gen_ingredient_positions(current_pizza, ing_dlg.ingredient, ing_count)
+            positions = pos_gen.gen_ingredient_positions(current_pizza(), ing_dlg.ingredient, ing_count)
 
             item = AddedIngredient(
                 0, 0,
                 ingredient_id=ing_dlg.ingredient.id,
-                addition_order=len(current_pizza.added_ingredients),
+                addition_order=len(current_pizza().added_ingredients),
                 count=ing_count,
                 portion_size=opt_dlg.selected_size,
                 position=positions
             )
-            current_pizza.added_ingredients.append(item)
+            current_pizza().added_ingredients.append(item)
             self.list_widget.add_ingredient(item)
             self.pizza_widget.setup_components()
             self.update()
@@ -170,6 +166,6 @@ class PizzaEditorWidget(QWidget):
 
 
     def item_removed(self, remove_item: AddedIngredient):
-        current_pizza.added_ingredients.remove(remove_item)
+        current_pizza().added_ingredients.remove(remove_item)
         self.pizza_widget.setup_components()
         self.update()
