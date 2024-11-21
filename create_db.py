@@ -124,7 +124,7 @@ def insert_data():
                 ('sweet_pepper','Сладкий перец', 3, '{MeasureUnit.PIECES}', 79, 1, 110, 'mosaic'),
                 ('pickled_cucumbers','Маринованные огурцы', 6, '{MeasureUnit.PIECES}', 79, 1, 29, 'random'),
                 ('oregano','Орегано', 5, '{MeasureUnit.PIECES}', 79, 1, 18, 'random'),
-                ('onion','Лук', 5, '{MeasureUnit.PIECES}', 79, 1, 38, 'random'),
+                ('onion','Лук', 3, '{MeasureUnit.PIECES}', 79, 1, 38, 'random'),
                 ('jalapeno_pepper','Перец халапеньо', 6, '{MeasureUnit.PIECES}', 79, 1, 35, 'random'),
                 ('ham','Ветчина', 5, '{MeasureUnit.PIECES}', 89, 2, 125, 'circle'),
                 ('garlic','Чеснок', 8, '{MeasureUnit.PIECES}', 69, 1, 28, 'random'),
