@@ -1,0 +1,66 @@
+
+CREATE TABLE IF NOT EXISTS categories (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title  TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS ingredients (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    title TEXT NOT NULL,
+    serving_size INTEGER NOT NULL,
+    measure_unit TEXT NOT NULL DEFAULT 'шт.',
+    price INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    weight INTEGER NOT NULL,
+    count INTEGER NOT NULL DEFAULT 10,
+    auto_place_method TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS dough_types (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    unit_weight REAL NOT NULL,
+    img TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS souses (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    unit_weight REAL NOT NULL,
+    img TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS pizzas (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    dough_type_id INTEGER NOT NULL,
+    souse_id INTEGER NOT NULL,
+    size INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS pizzas_ingredients (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    pizza_id INTEGER NOT NULL,
+    ingredient_id INTEGER NOT NULL,
+    addition_order INTEGER NOT NULL,
+    count INTEGER NOT NULL,
+    portion_size INTEGER NOT NULL,
+    position TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    date TEXT NOT NULL,
+    pizza_id INTEGER NOT NULL,
+    status TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS base_prices (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    dought_tipe_id INTEGER NOT NULL,
+    souse_id INTEGER NOT NULL,
+    size INTEGER NOT NULL,
+    price INTEGER NOT NULL,
+    UNIQUE (dought_tipe_id,souse_id,size)
+);
+
