@@ -6,8 +6,8 @@ from PyQt6.QtWidgets import (
 
 from model import new_pizza
 
-PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
 PIZZA_SIZES = [25, 30, 35, 40]
+PIZZA_DOUGHS = ["Традиционная", "Тонкое тесто"]
 PIZZA_SOUSES = ["Томатный", "Сливочный"]
 
 
