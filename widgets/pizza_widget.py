@@ -5,11 +5,10 @@ from PyQt6.QtGui import QPainter, QImage, QTransform
 from PyQt6.QtWidgets import QWidget, QSlider
 
 import const
-from db import get_model_cached
+import state
+from state import current_pizza
 from utils import image_lib
 from utils.image_lib import get_image
-from model import Ingredient, DoughType, Souse
-from state import current_pizza
 
 
 class PizzaComponent:
@@ -36,10 +35,6 @@ class PizzaWidget(QWidget):
         self.setObjectName("pizzaWidget")
         self.setMinimumSize(const.PIZZA_MAX_SIZE_PIX, const.PIZZA_MAX_SIZE_PIX)
 
-        self.all_ingredients_dict = get_model_cached(Ingredient)
-        self.all_dough_dict = get_model_cached(DoughType)
-        self.all_souses_dict = get_model_cached(Souse)
-
         self.dragging = None
         self.last_item = None
 
@@ -63,16 +58,16 @@ class PizzaWidget(QWidget):
         w = int(const.PIZZA_MAX_SIZE_PIX * const.PIZZA_SIZE_KOEF[current_pizza().size])
         h = int(const.PIZZA_MAX_SIZE_PIX * const.PIZZA_SIZE_KOEF[current_pizza().size])
 
-        self.pizza_base = get_image(f"ingredients/{self.all_dough_dict[current_pizza().dough_type_id].img}")
+        self.pizza_base = get_image(f"ingredients/{state.all_dough_dict[current_pizza().dough_type_id].img}")
         self.pizza_base = self.pizza_base.scaled(w, h)
 
-        self.souse_img = get_image(f"ingredients/{self.all_souses_dict[current_pizza().souse_id].img}")
+        self.souse_img = get_image(f"ingredients/{state.all_souses_dict[current_pizza().souse_id].img}")
         self.souse_img = self.souse_img.scaled(w, h)
 
     def setup_components(self):
         self.components = []
         for ing_ind, ad_ing in enumerate(current_pizza().added_ingredients):
-            ing = self.all_ingredients_dict[ad_ing.ingredient_id]
+            ing = state.all_ingredients_dict[ad_ing.ingredient_id]
             img = image_lib.get_image(ing.get_image_filename())
 
             for i in range(ad_ing.count):

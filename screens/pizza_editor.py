@@ -3,9 +3,8 @@ from PyQt6.QtWidgets import (
 )
 
 import const
-import db
-from db import get_model_cached
-from model import AddedIngredient, Ingredient
+import state
+from model import AddedIngredient
 from state import current_pizza
 from utils.position_generators import pos_gen
 from widgets.added_ingredients_list import AddedIngredientsList
@@ -139,7 +138,7 @@ class PizzaEditorWidget(QWidget):
         self.background.setObjectName("background")
         self.background.hide()
 
-        self.all_ingredients_dict = get_model_cached(Ingredient)
+        self.total_sum = 0
 
     def show_background(self):
         self.background.show()
@@ -181,12 +180,10 @@ class PizzaEditorWidget(QWidget):
         self.next()
 
     def pizza_updated(self):
-        total_sum = db.get_base_price(current_pizza())
-        for ingredient in current_pizza().added_ingredients:
-            total_sum += self.all_ingredients_dict[ingredient.ingredient_id].get_portion_price(ingredient.portion_size)
+        total_sum = state.current_pizza_total_cost()
         self.res_sum_label.setText(f"К оплате:\n{total_sum} ₽")
         self.pizza_widget.setup_components()
-        remain = const.PIZZA_MAX_INGREDIENTS[current_pizza().size] - len(current_pizza().added_ingredients)
+        remain = const.PIZZA_MAX_INGREDIENTS[current_pizza().size] - state.current_pizza_ingredients_count()
         if remain > 0:
             self.remained_label.setText(f"ещё можно добавить\n{remain} ингредиентов")
         else:

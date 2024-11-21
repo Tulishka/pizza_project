@@ -1,8 +1,8 @@
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QListWidget, QListWidgetItem
 
-from db import get_model_cached
-from model import AddedIngredient, Ingredient
+import state
+from model import AddedIngredient
 from widgets.added_ingredient_widget import AddedIngredientWidget
 
 
@@ -15,13 +15,12 @@ class AddedIngredientsList(QListWidget):
 
         self.setStyleSheet("background:#F0F0F0; border: none")
 
-        self.all_ingredients_dict = get_model_cached(Ingredient)
         self.setSpacing(8)
 
     def add_ingredient(self, added_ingredient: AddedIngredient):
         ingredient_widget = AddedIngredientWidget(
             self,
-            self.all_ingredients_dict[added_ingredient.ingredient_id],
+            state.all_ingredients_dict[added_ingredient.ingredient_id],
             added_ingredient
         )
 

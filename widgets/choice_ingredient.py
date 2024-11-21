@@ -4,7 +4,8 @@ from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButt
 
 import db
 import model
-from db import get_model
+import state
+
 from model import Ingredient
 from widgets.ingredient_widget import IngredientWidget
 
@@ -79,8 +80,6 @@ class ChoiceIngredientDialog(QDialog):
         self.top_layout.addWidget(self.cancel_btn)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
-        all_ingredients = db.get_model_cached(Ingredient).values()
-
         self.setObjectName("dialog")
         self.ingredient = None
 
@@ -107,7 +106,7 @@ class ChoiceIngredientDialog(QDialog):
             grid_layout.setSpacing(8)
 
             self.stack_layout.addWidget(grid_widget)
-            for i, ing in enumerate(ind for ind in all_ingredients if ind.category_id == category.id):
+            for i, ing in enumerate(ind for ind in state.all_ingredients_dict.values() if ind.category_id == category.id):
                 iw = IngredientWidget(self, ing)
                 iw.clicked.connect(self.ingredient_selected)
                 grid_layout.addWidget(iw, i // 4, i % 4)
