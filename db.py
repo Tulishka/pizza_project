@@ -1,7 +1,7 @@
 from functools import cache
 
 from create_db import get_db
-from model import Model, Ingredient, IngredientCategory
+from model import Model, Ingredient, IngredientCategory, Pizza
 
 
 def get_model(model_class: type(Model)) -> dict[int, Model]:
@@ -26,3 +26,20 @@ def get_model(model_class: type(Model)) -> dict[int, Model]:
 @cache
 def get_model_cached(model_class: type(Model)) -> dict[int, Model]:
     return get_model(model_class)
+
+
+@cache
+def get_base_price(pizza: Pizza):
+    with get_db() as con:
+        cur = con.cursor()
+
+        res = cur.execute(f""" 
+            SELECT price 
+            FROM base_prices
+            WHERE 
+                dought_tipe_id=?
+                AND souse_id=?
+                AND size=?
+        """, (pizza.dough_type_id, pizza.souse_id, pizza.size)).fetchall()
+
+    return res[0][0] if res else 0

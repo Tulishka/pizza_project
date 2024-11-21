@@ -2,7 +2,9 @@ from PyQt6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QListWidget
 )
 
-from model import current_pizza, AddedIngredient
+import db
+from db import get_model_cached
+from model import current_pizza, AddedIngredient, Ingredient
 from position_generators import pos_gen
 from widgets.added_ingredients_list import AddedIngredientsList
 from widgets.choice_ingredient import ChoiceIngredientDialog
@@ -83,15 +85,9 @@ class PizzaEditorWidget(QWidget):
         self.add_ing_layout.addWidget(self.add_button)
         self.add_ing_layout.addWidget(self.remained_label)
 
-        self.time_label = QLabel(f"Примерное время готовки: {'00:00'}", self)
-        self.time_label.setStyleSheet("""
-                    font-size: 18pt
-                """)
-        self.vlayout.addWidget(self.time_label)
-
         self.order_layout = QHBoxLayout(self)
         self.vlayout.addLayout(self.order_layout)
-        self.res_sum_label = QLabel(f"К оплате:\n{'0000'} руб.")
+        self.res_sum_label = QLabel(self)
         self.res_sum_label.setStyleSheet("""
                     font-size: 26pt
                 """)
@@ -123,7 +119,8 @@ class PizzaEditorWidget(QWidget):
         """)
         self.background.hide()
 
-    # self.vlayout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
+        self.all_ingredients_dict = get_model_cached(Ingredient)
+
 
     def show_background(self):
         self.background.show()
@@ -155,8 +152,8 @@ class PizzaEditorWidget(QWidget):
             )
             current_pizza().added_ingredients.append(item)
             self.list_widget.add_ingredient(item)
-            self.pizza_widget.setup_components()
-            self.update()
+            self.pizza_updated()
+
 
         finally:
             self.hide_background()
@@ -164,8 +161,14 @@ class PizzaEditorWidget(QWidget):
     def ok_click(self):
         self.next()
 
+    def pizza_updated(self):
+        total_sum = db.get_base_price(current_pizza())
+        for ingredient in current_pizza().added_ingredients:
+            total_sum += self.all_ingredients_dict[ingredient.ingredient_id].get_portion_price(ingredient.portion_size)
+        self.res_sum_label.setText(f"К оплате:\n{total_sum} ₽")
+        self.pizza_widget.setup_components()
+        self.update()
 
     def item_removed(self, remove_item: AddedIngredient):
         current_pizza().added_ingredients.remove(remove_item)
-        self.pizza_widget.setup_components()
-        self.update()
+        self.pizza_updated()
