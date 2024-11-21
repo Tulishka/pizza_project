@@ -8,9 +8,7 @@ import state
 from db import get_model_cached
 from model import DoughType, Souse
 
-
 PIZZA_SIZES = [25, 30, 35, 40]
-
 
 
 class PizzaBaseWidget(QWidget):
@@ -58,15 +56,16 @@ class PizzaBaseWidget(QWidget):
                 background-color: #6CE08F;
             }             
             
+            #back {
+                background-color: #555555;
+                border-radius: 0;
+            }
         """)
 
         self.back = QWidget(self)
         self.back.resize(1024, 768)
         self.back.move(0, 0)
-        self.back.setStyleSheet("""
-            background-color: #555555;
-            border-radius: 0;
-        """)
+        self.back.setObjectName("back")
 
         self.hlayout = QHBoxLayout(self)
         self.vlayout = QVBoxLayout(self)

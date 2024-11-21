@@ -18,18 +18,71 @@ class PizzaEditorWidget(QWidget):
         super().__init__(parent)
         self.resize(self.parent().width(), self.parent().height())
 
+        self.setStyleSheet("""
+            #back {
+                background-color: white;
+                border-radius: 0;
+                padding: 0;
+                margin: 0;
+            }
+            
+            #ingredients_label {
+                font-size: 30pt;
+            }
+            
+            #remained_label {
+                font-size: 16pt;
+            }
+            
+            #res_sum_label {
+                font-size: 26pt;
+            }
+            
+            QPushButton {
+                color: #3D3D3D;
+                background-color: #AFAFAF;
+                border: 2px solid #00000000;
+                border-radius: 15px;
+                padding: 2px;
+                font-size: 25px;
+                
+            }        
+            
+            QPushButton:hover {
+                border-color: #555555;
+            }
+            
+            QPushButton#order_button {
+                color: black;
+                background-color: #6CE08F;
+                padding: 10px;
+                font-size: 30px;
+
+            }        
+            
+            QPushButton#order_button:hover {
+                border-color: #48A865;
+            } 
+             
+            #background {
+                background-color: #DE000000;
+            }
+
+            #panel_widget, #panel_widget > QLabel {
+                background-color: #F0F0F0;
+                border-radius: 0;
+            }
+            
+            
+        """)
+
         self.next = None
 
         self.back = QWidget(self)
 
         self.back.resize(self.parent().width(), self.parent().height())
         self.back.move(0, 0)
-        self.back.setStyleSheet("""
-            background-color: white;
-            border-radius: 0;
-            padding: 0;
-            margin: 0;
-        """)
+        self.back.setObjectName('back')
 
         self.hlayout = QHBoxLayout(self)
         self.hlayout.setContentsMargins(0, 0, 0, 0)
@@ -38,20 +91,16 @@ class PizzaEditorWidget(QWidget):
         self.hlayout.addWidget(self.pizza_widget)
 
         self.panel_widget = QWidget(self)
-        # self.panel_widget.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-        self.panel_widget.setStyleSheet("""
-            background-color: #F0F0F0;
-            border-radius: 0;
-        """)
-        self.hlayout.addWidget(self.panel_widget)
+        self.panel_widget.setObjectName('panel_widget')
         self.panel_widget.setFixedWidth(390)
+
+        self.hlayout.addWidget(self.panel_widget)
 
         self.vlayout = QVBoxLayout(self.panel_widget)
         self.vlayout.setSpacing(12)
         self.ingredients_label = QLabel("Ингредиенты:")
-        self.ingredients_label.setStyleSheet("""
-            font-size: 30pt
-        """)
+        self.ingredients_label.setObjectName('ingredients_label')
+
         self.vlayout.addWidget(self.ingredients_label)
 
         self.list_widget = AddedIngredientsList(self)
@@ -63,23 +112,9 @@ class PizzaEditorWidget(QWidget):
         self.add_button = QPushButton("+", self)
         self.add_button.clicked.connect(self.add_ingredient)
         self.remained_label = QLabel(f"ещё можно добавить\n{'00'} ингредиентов")
-        self.remained_label.setStyleSheet("""
-            font-size: 16pt
-        """)
-        self.add_button.setStyleSheet("""
-            QPushButton {
-                color: #3D3D3D;
-                background-color: #AFAFAF;
-                border: 2px solid #00000000;
-                border-radius: 15px;
-                padding: 2px;
-                font-size: 25px;
-                
-            }        
-            QPushButton:hover {
-                border-color: #555555;
-            } 
-        """)
+        self.remained_label.setObjectName('remained_label')
+        self.add_button.setObjectName("add_button")
+
         self.add_button.setMaximumWidth(100)
         self.add_button.setFixedHeight(60)
 
@@ -89,39 +124,21 @@ class PizzaEditorWidget(QWidget):
         self.order_layout = QHBoxLayout(self)
         self.vlayout.addLayout(self.order_layout)
         self.res_sum_label = QLabel(self)
-        self.res_sum_label.setStyleSheet("""
-                    font-size: 26pt
-                """)
+        self.res_sum_label.setObjectName("res_sum_label")
         self.order_layout.addWidget(self.res_sum_label)
 
         self.order_button = QPushButton("Заказать", self)
-        self.order_button.setStyleSheet("""
-            QPushButton {
-                color: black;
-                background-color: #6CE08F;
-                border: 2px solid #00000000;
-                border-radius: 15px;
-                padding: 10px;
-                font-size: 30px;
-
-            }        
-            QPushButton:hover {
-                border-color: #48A865;
-            } 
-        """)
+        self.order_button.setObjectName("order_button")
         self.order_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
         self.order_button.setFixedHeight(100)
         self.order_layout.addWidget(self.order_button)
 
         self.background = QWidget(self)
         self.background.setGeometry(0, 0, self.parent().width(), self.parent().height())
-        self.background.setStyleSheet("""
-                background-color: #DE000000;
-        """)
+        self.background.setObjectName("background")
         self.background.hide()
 
         self.all_ingredients_dict = get_model_cached(Ingredient)
-
 
     def show_background(self):
         self.background.show()

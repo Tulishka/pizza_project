@@ -14,6 +14,48 @@ class ChoiceIngredientDialog(QDialog):
         super().__init__(parent)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
+        self.setStyleSheet("""
+            #dialog{
+                border-radius: 15px;
+            }
+
+            QPushButton {
+                background-color: #EFE4D8;
+                border: 2px solid #00000000;
+                border-radius: 15px;
+                padding: 10px;
+                font-size: 16px;
+            }        
+            QPushButton:hover {
+                border-color: #555555;
+            } 
+
+            QPushButton#category {
+                font-size: 32px;
+                background-color: #EFE4D8;
+            } 
+
+            QPushButton#category:checked {
+                border: 2px solid #333333;
+                background-color: #D6C7B6;
+            }
+
+            QPushButton#cancel_btn {
+                color: black;
+                background-color: #E4E4E4;
+                font-size: 24px;
+            }        
+            
+            QPushButton#cancel_btn:hover {
+                border-color: #646464;
+            }
+            
+            #label {
+                font-size: 32pt;
+            }
+ 
+        """)
+
         self.setContentsMargins(0, 0, 0, 0)
         self.resize(720, 600)
         self.move(parent.width() // 2 - self.width() // 2, parent.height() // 2 - self.height() // 2)
@@ -26,60 +68,16 @@ class ChoiceIngredientDialog(QDialog):
         self.central_layout.addLayout(self.top_layout)
 
         self.label = QLabel("Выбери ингредиент", self)
-
-        self.label.setStyleSheet("""
-                font-size: 32pt;
-        """)
+        self.label.setObjectName("label")
 
         self.cancel_btn = QPushButton("X", self)
-        self.cancel_btn.setStyleSheet("""
-            QPushButton {
-                color: black;
-                background-color: #E4E4E4;
-                border: 2px solid #00000000;
-                border-radius: 15px;
-                padding: 10px;
-                font-size: 24px;
-
-            }        
-            QPushButton:hover {
-                border-color: #646464;
-            } 
-        """)
+        self.cancel_btn.setObjectName("cancel_btn")
         self.cancel_btn.setMaximumWidth(120)
         self.cancel_btn.clicked.connect(self.cancel_click)
 
         self.top_layout.addWidget(self.label)
         self.top_layout.addWidget(self.cancel_btn)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-
-        self.setStyleSheet("""
-            #dialog{
-                border-radius: 15px;
-            }
-                
-            QPushButton {
-                background-color: #EFE4D8;
-                border: 2px solid #00000000;
-                border-radius: 15px;
-                padding: 10px;
-                font-size: 16px;
-            }        
-            QPushButton:hover {
-                border-color: #555555;
-            } 
-            
-            QPushButton#category {
-                font-size: 32px;
-                background-color: #EFE4D8;
-            } 
-            
-            QPushButton#category:checked {
-                border: 2px solid #333333;
-                background-color: #D6C7B6;
-            }
-                
-        """)
 
         all_ingredients = db.get_model_cached(Ingredient).values()
 
@@ -124,5 +122,5 @@ class ChoiceIngredientDialog(QDialog):
         self.reject()
 
     def ingredient_selected(self, ingredient: Ingredient):
-        self.ingredient=ingredient
+        self.ingredient = ingredient
         self.accept()

@@ -10,6 +10,20 @@ class WelcomeWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
 
+        self.setStyleSheet("""
+            QPushButton {
+                background-color: #6CE08F;
+                border: 2px solid darkgreen;
+                border-radius: 15px;
+                padding: 10px;
+                font-size: 32px;
+            }        
+            QPushButton:hover {
+                background-color: darkgreen;
+                color: white;
+            }        
+        """)
+
         self.next = None
 
         self.layout = QVBoxLayout(self)
@@ -20,7 +34,6 @@ class WelcomeWidget(QWidget):
         self.img_label = QLabel(self)
         pixmap = QPixmap("./images/welcome_image.png")
         self.img_label.setPixmap(pixmap)
-        # self.img_label.setPixmap(pixmap.scaled(600, 400, Qt.AspectRatioMode.KeepAspectRatio))
 
         self.layout.addWidget(self.img_label)
 
@@ -28,19 +41,6 @@ class WelcomeWidget(QWidget):
         self.layout.addSpacerItem(self.verticalSpacer)
 
         self.start_button = QPushButton("Создать пиццу мечты", self)
-        self.start_button.setStyleSheet("""
-        QPushButton {
-            background-color: #6CE08F;
-            border: 2px solid darkgreen;
-            border-radius: 15px;
-            padding: 10px;
-            font-size: 32px;
-        }        
-        QPushButton:hover {
-            background-color: darkgreen;
-            color: white;
-        }        
-        """)
 
         self.start_button.clicked.connect(self.start_click)
 
@@ -50,7 +50,6 @@ class WelcomeWidget(QWidget):
         self.layout.addSpacerItem(self.verticalSpacer)
 
         self.layout.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-
 
         self.resize(self.parent().width(), self.parent().height())
 

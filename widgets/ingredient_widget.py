@@ -7,16 +7,11 @@ from model import Ingredient
 
 
 class IngredientWidget(QWidget):
-
     clicked = pyqtSignal(object, name="clicked")
 
     def __init__(self, parent, ingredient: Ingredient):
         super().__init__(parent)
         self.ingredient = ingredient
-        # self.resize(147, 174)
-        self.setMaximumWidth(147)
-        self.setMaximumHeight(174)
-        self.setMinimumHeight(140)
 
         self.setStyleSheet("""
             #back, QWidget {
@@ -27,6 +22,11 @@ class IngredientWidget(QWidget):
                 border: 2px solid #555555
             }
         """)
+
+        self.setMaximumWidth(147)
+        self.setMaximumHeight(174)
+        self.setMinimumHeight(140)
+
         self.mlayout = QVBoxLayout(self)
         self.widget = QWidget(self)
         self.widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
@@ -41,10 +41,6 @@ class IngredientWidget(QWidget):
         self.vlayout.addWidget(QLabel(ingredient.title, self.widget), alignment=Qt.AlignmentFlag.AlignHCenter)
         self.vlayout.addWidget(QLabel(f"{ingredient.price} ₽", self.widget), alignment=Qt.AlignmentFlag.AlignHCenter)
 
-
-
     def mousePressEvent(self, event: QMouseEvent):
         if event.button() == Qt.MouseButton.LeftButton:
             self.clicked.emit(self.ingredient)
-
-        # self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)

@@ -12,6 +12,9 @@ class AddedIngredientsList(QListWidget):
 
     def __init__(self, parent):
         super().__init__(parent)
+
+        self.setStyleSheet("background:#F0F0F0; border: none")
+
         self.all_ingredients_dict = get_model_cached(Ingredient)
         self.setSpacing(8)
 
