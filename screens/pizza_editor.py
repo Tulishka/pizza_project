@@ -159,6 +159,7 @@ class PizzaEditorWidget(QWidget):
             )
             current_pizza.added_ingredients.append(item)
             self.list_widget.add_ingredient(item)
+            self.pizza_widget.setup_components()
             self.update()
 
         finally:
@@ -170,4 +171,5 @@ class PizzaEditorWidget(QWidget):
 
     def item_removed(self, remove_item: AddedIngredient):
         current_pizza.added_ingredients.remove(remove_item)
+        self.pizza_widget.setup_components()
         self.update()
