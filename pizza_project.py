@@ -47,7 +47,12 @@ class PizzaConstructor(QWidget):
         self.payment_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         self.stack_layout.addWidget(self.payment_widget)
 
-        self.stack_layout.setCurrentWidget(self.payment_widget)
+        self.complete_widget = CompleteWidget(self)
+        self.complete_widget.next = self.pizza_edit
+        self.complete_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.stack_layout.addWidget(self.complete_widget)
+
+        self.stack_layout.setCurrentWidget(self.complete_widget)
 
     def pizza_base(self):
         self.stack_layout.setCurrentWidget(self.pizzabase_widget)
