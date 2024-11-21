@@ -50,7 +50,13 @@ class PizzaWidget(QWidget):
         self.angleSlider = QSlider(Qt.Orientation.Horizontal, self)
         self.angleSlider.setMinimum(-180)
         self.angleSlider.setMaximum(180)
-        self.angleSlider.setGeometry(10, 10, 100, 30)
+        self.angleSlider.hide()
+        sw = 100
+        sh = 30
+        self.angleSlider.setGeometry(
+            parent.width() // 2 - sw // 2,
+            parent.height() - 120,
+            sw, sh)
         self.angleSlider.valueChanged.connect(self.slider_changed)
 
         self.components = []
@@ -64,7 +70,7 @@ class PizzaWidget(QWidget):
             for i in range(ad_ing.count):
                 self.components.append(PizzaComponent(img, ing_ind, i))
         self.last_item = None
-        print(len(self.components))
+        self.angleSlider.hide()
 
     def paintEvent(self, event):
         qp = QPainter()
@@ -75,9 +81,7 @@ class PizzaWidget(QWidget):
 
         for comp in self.components:
             ad_ing = current_pizza.added_ingredients[comp.ingredient_index]
-            x = ad_ing.position[comp.item_index][0]
-            y = ad_ing.position[comp.item_index][1]
-            angle = ad_ing.position[comp.item_index][2]
+            x, y, angle = ad_ing.position[comp.item_index]
             img = comp.get_image(angle)
             w, h = img.width() / 2, img.height() / 2
             x = x * PIZZA_MAX_DIAM_PIX / 40
@@ -93,11 +97,7 @@ class PizzaWidget(QWidget):
             pos = event.position()
             for comp in reversed(self.components):
                 ad_ing = current_pizza.added_ingredients[comp.ingredient_index]
-
-                x = ad_ing.position[comp.item_index][0]
-                y = ad_ing.position[comp.item_index][1]
-                angle = ad_ing.position[comp.item_index][2]
-
+                x, y, angle = ad_ing.position[comp.item_index]
                 img = comp.get_image(angle)
 
                 x = x * PIZZA_MAX_DIAM_PIX / 40 - comp.image.width() / 2
@@ -112,6 +112,8 @@ class PizzaWidget(QWidget):
                     self.offset_x = pos.x() - x
                     self.offset_y = pos.y() - y
                     self.last_item = ad_ing, comp.item_index
+                    self.angleSlider.setValue(angle - 360 if abs(angle) > 180 else angle)
+                    self.angleSlider.show()
                     break
 
     def mouseMoveEvent(self, event):
@@ -136,6 +138,7 @@ class PizzaWidget(QWidget):
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             self.dragging = None
+
 
     def slider_changed(self):
         slider = self.sender()

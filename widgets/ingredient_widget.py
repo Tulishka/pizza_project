@@ -13,8 +13,11 @@ class IngredientWidget(QWidget):
     def __init__(self, parent, ingredient: Ingredient):
         super().__init__(parent)
         self.ingredient = ingredient
-        self.resize(147, 174)
-        self.setFixedSize(147, 174)
+        # self.resize(147, 174)
+        self.setMaximumWidth(147)
+        self.setMaximumHeight(174)
+        self.setMinimumHeight(140)
+
         self.setStyleSheet("""
             #back, QWidget {
                 border-radius: 15px;

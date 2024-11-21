@@ -15,7 +15,7 @@ class ChoiceIngredientDialog(QDialog):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
         self.setContentsMargins(0, 0, 0, 0)
-        self.resize(720, 490)
+        self.resize(720, 600)
         self.move(parent.width() // 2 - self.width() // 2, parent.height() // 2 - self.height() // 2)
 
         self.central_layout = QVBoxLayout(self)
