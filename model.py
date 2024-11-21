@@ -7,9 +7,18 @@ from utils.enums import MeasureUnit
 
 class Model:
     table_name = ""
+    primary_key = "id"
+    read_only_keys = []
 
     def __init__(self, id):
         self.id = id
+
+    def get_insert_fields(self) -> list[str]:
+        return [
+            key
+            for key in self.__dict__.keys()
+            if key != self.primary_key and key[0] != '_' and key not in self.read_only_keys
+        ]
 
     def __repr__(self):
         values = ",".join(f"{key}={repr(value)}" for key, value in self.__dict__.items())
@@ -92,6 +101,7 @@ class Souse(BaseIngredient):
 
 class Pizza(Model):
     table_name = "pizzas"
+    read_only_keys = "added_ingredients"
 
     def __init__(self, id: int, dough_type_id: int, size: int, souse_id: int):
         super().__init__(id)
@@ -104,8 +114,8 @@ class Pizza(Model):
 class Order(Model):
     table_name = "orders"
 
-    def __init__(self, id: int | None, date: datetime, pizza: Pizza, status: str):
+    def __init__(self, id: int | None, date: str, pizza_id: int, status: str):
         super().__init__(id)
         self.date = date
-        self.pizza = pizza
+        self.pizza_id = pizza_id
         self.status = status

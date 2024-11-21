@@ -15,6 +15,8 @@ class SqliteCm:
         return self.con
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        if not exc_type:
+            self.con.commit()
         self.close()
 
     def close(self):

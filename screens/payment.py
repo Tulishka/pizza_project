@@ -1,9 +1,10 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QVBoxLayout, QLabel
+from PyQt6.QtWidgets import QVBoxLayout, QLabel, QSpacerItem, QSizePolicy
 
 import state
 from payment_api import PaymentApi
 from screens.BaseScreen import BaseScreen
+from utils import image_lib
 
 
 class PaymentWidget(BaseScreen):
@@ -20,11 +21,14 @@ class PaymentWidget(BaseScreen):
         self.paymentApi.paymentResult.connect(self.pay_done)
 
         self.vlayout = QVBoxLayout(self)
+        self.vlayout.setSpacing(24)
 
         self.price = QLabel(f"Оплатите 0 ₽", self)
         self.label = QLabel("Следуйте указаниям\nна терминале оплаты", self)
+
         self.vlayout.addWidget(self.price, alignment=Qt.AlignmentFlag.AlignHCenter)
         self.vlayout.addWidget(self.label, alignment=Qt.AlignmentFlag.AlignHCenter)
+        self.vlayout.addSpacerItem(QSpacerItem(1, 100, QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Minimum))
 
     def activated(self):
         print("start payment")

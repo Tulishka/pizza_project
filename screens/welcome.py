@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (
 )
 
 import const
+import state
 from screens.BaseScreen import BaseScreen
 
 
@@ -55,4 +56,5 @@ class WelcomeWidget(BaseScreen):
         self.resize(self.parent().width(), self.parent().height())
 
     def start_click(self):
+        state.new_order()
         self.next.emit()

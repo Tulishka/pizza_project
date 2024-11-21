@@ -196,6 +196,8 @@ class PizzaEditorWidget(BaseScreen):
         filename = f"{const.PIZZAS_PICTURES_DIR}/pizza{randint(1000, 9999)}.png"
         capturedImage.save(filename)
         state.set_pizza_picture(filename, capturedImage)
+        state.save_order()
+
         self.next.emit()
 
     def pizza_updated(self):
