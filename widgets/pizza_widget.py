@@ -19,7 +19,6 @@ class PizzaWidget(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
         self.setObjectName("pizzaWidget")
-        # self.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.setMinimumSize(PIZZA_MAX_SIZE_PIX, PIZZA_MAX_SIZE_PIX)
 
         w = int(PIZZA_MAX_SIZE_PIX * PIZZA_SIZE_KOEF[current_pizza.size])
@@ -71,7 +70,6 @@ class PizzaWidget(QWidget):
         if event.button() == Qt.MouseButton.LeftButton:
             cx, cy = self.width() // 2, self.height() // 2
             pos = event.position()
-            print(pos)
             for comp in self.components:
                 ad_ing = current_pizza.added_ingredients[comp.ingredient_index]
 
@@ -83,7 +81,6 @@ class PizzaWidget(QWidget):
                 y = y * PIZZA_MAX_DIAM_PIX / 40 - comp.image.height() / 2
 
                 ix, iy = int(pos.x() - x - cx), int(pos.y() - y - cy)
-                # print(comp.image.pixelColor(ix, iy).alpha())
 
                 if (x + cx <= pos.x() <= x + cx + comp.image.width() and
                         y + cy <= pos.y() <= y + cy + comp.image.height() and
@@ -109,7 +106,7 @@ class PizzaWidget(QWidget):
             ad_ing.position[self.dragging.item_index][0] = x
             ad_ing.position[self.dragging.item_index][1] = y
 
-            self.update()  # Обновляем виджет для перерисовки
+            self.update()
 
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
