@@ -9,12 +9,9 @@ from widgets.added_ingredient_widget import AddedIngredientWidget
 class AddedIngredientsList(QListWidget):
     itemRemoved = pyqtSignal(object)
 
-
     def __init__(self, parent):
         super().__init__(parent)
-
         self.setStyleSheet("background:#F0F0F0; border: none")
-
         self.setSpacing(8)
 
     def add_ingredient(self, added_ingredient: AddedIngredient):

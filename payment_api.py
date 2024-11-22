@@ -8,7 +8,7 @@ class PaymentApi(QObject):
         super().__init__()
 
         self.timer = QTimer()
-        self.timer.setInterval(4000)
+        self.timer.setInterval(5000)
         self.timer.timeout.connect(self.timeout)
 
     def timeout(self):

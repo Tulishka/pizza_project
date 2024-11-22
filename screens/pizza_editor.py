@@ -148,6 +148,8 @@ class PizzaEditorWidget(BaseScreen):
         self.prev_button = btn
 
     def activated(self):
+        if not current_pizza().added_ingredients:
+            self.list_widget.clear()
         self.pizza_widget.setup_pizza_base()
         self.pizza_updated()
 
