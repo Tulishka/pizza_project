@@ -77,6 +77,10 @@ git clone https://github.com/Tulishka/pizza_project.git
 3. создать и активировать виртуальное окружение
 
 ```bash
+cd pizza_project
+```
+
+```bash
 python -m venv venv
 ```
 
