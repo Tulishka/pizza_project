@@ -2,7 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QHBoxLayout, QSpacerItem, QSizePolicy
 
 import state
-from screens.BaseScreen import BaseScreen
+from screens.base import BaseScreen
 from state import State
 
 

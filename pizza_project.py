@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
 import state  # создать состояние
 
 import const
-from screens import BaseScreen
+from screens.base import BaseScreen
 from screens.complete import CompleteWidget
 from screens.payment import PaymentWidget
 from screens.pizza_base import PizzaBaseWidget

@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
 
 import const
 import state
-from screens.BaseScreen import BaseScreen
+from screens.base import BaseScreen
 
 
 class WelcomeWidget(BaseScreen):

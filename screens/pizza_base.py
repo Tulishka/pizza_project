@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (
 import state
 from db import get_model_cached
 from model import DoughType, Souse
-from screens.BaseScreen import BaseScreen
+from screens.base import BaseScreen
 
 PIZZA_SIZES = [25, 30, 35, 40]
 

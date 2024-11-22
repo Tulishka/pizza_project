@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QVBoxLayout, QLabel, QSpacerItem, QSizePolicy
 
 import state
 from payment_api import PaymentApi
-from screens.BaseScreen import BaseScreen
+from screens.base import BaseScreen
 
 
 class PaymentWidget(BaseScreen):
