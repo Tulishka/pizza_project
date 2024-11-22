@@ -1,13 +1,13 @@
 from random import randint
 
 from PyQt6.QtWidgets import (
-    QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout
+    QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QMessageBox
 )
 
 import const
 import state
 from model import AddedIngredient
-from screens.BaseScreen import BaseScreen
+from screens.base import BaseScreen
 from state import current_pizza
 from utils.position_generators import pos_gen
 from widgets.added_ingredients_list import AddedIngredientsList
@@ -153,7 +153,6 @@ class PizzaEditorWidget(BaseScreen):
         self.pizza_widget.setup_pizza_base()
         self.pizza_updated()
 
-
     def show_background(self):
         self.background.show()
         self.prev_button.hide()
@@ -218,3 +217,14 @@ class PizzaEditorWidget(BaseScreen):
     def item_removed(self, remove_item: AddedIngredient):
         current_pizza().added_ingredients.remove(remove_item)
         self.pizza_updated()
+
+    def prev_clicked(self):
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Подтвердите")
+        msg_box.setText("Отменить создание пиццы?")
+        msg_box.setIcon(QMessageBox.Icon.Question)
+        msg_box.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+        result = msg_box.exec()
+        if result == QMessageBox.StandardButton.Cancel:
+            return
+        super().prev_clicked()
