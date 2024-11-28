@@ -101,7 +101,7 @@ class Souse(BaseIngredient):
 
 class Pizza(Model):
     table_name = "pizzas"
-    read_only_keys = "added_ingredients"
+    read_only_keys = ["added_ingredients"]
 
     def __init__(self, id: int, dough_type_id: int, size: int, souse_id: int):
         super().__init__(id)
