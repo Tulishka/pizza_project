@@ -1,7 +1,11 @@
+"""Файл содержит классы-перечисления"""
+
 from enum import Enum
 
 
 class MeasureUnit(str, Enum):
+    """Единицы измерения"""
+
     PIECES = "шт."
     GRAM = "гр."
 
@@ -13,6 +17,8 @@ class MeasureUnit(str, Enum):
 
 
 class OrderStatus(str, Enum):
+    """Статусы заказа"""
+
     NEW = "НОВЫЙ"
     PAYED = "ОПЛАЧЕН"
     CANCELED = "ОТМЕНЕН"

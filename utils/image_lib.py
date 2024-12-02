@@ -1,3 +1,5 @@
+"""Функции для получения и кэширования картинок"""
+
 from functools import cache
 
 from PyQt6.QtGui import QPixmap, QImage
