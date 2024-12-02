@@ -49,7 +49,7 @@ class CompleteWidget(BaseScreen):
         state.order_complete()
 
     def prev_clicked(self):
-        """Обработчик кнопки назад: поднимает сигнал next,
+        """Обработчик кнопки назад: отправляет сигнал next,
         так как экран последний, приведёт к переходу на начальный экран
         :return None:
         """

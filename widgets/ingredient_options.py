@@ -7,6 +7,8 @@ from model import Ingredient
 
 
 class IngredientOptionsDialog(QDialog):
+    """Диалог выбора опций ингредиента (размера порции)"""
+
     def __init__(self, parent, ingredient: Ingredient):
         super().__init__(parent)
 
@@ -113,5 +115,9 @@ class IngredientOptionsDialog(QDialog):
         self.size_clicked(self.standard)
 
     def size_clicked(self, button):
+        """Обработчик нажатия кнопки размера порции
+        :param button:
+        :return None:
+        """
         self.selected_size = 1 if button is self.big else 0
         self.price.setText(f"{self.ingredient.get_portion_price(self.selected_size)} ₽")

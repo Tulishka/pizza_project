@@ -7,6 +7,8 @@ from model import Ingredient
 
 
 class IngredientWidget(QWidget):
+    """Виджет для отображения ингредиента в диалоге добавления"""
+
     clicked = pyqtSignal(object, name="clicked")
 
     def __init__(self, parent, ingredient: Ingredient):
@@ -45,5 +47,9 @@ class IngredientWidget(QWidget):
         self.vlayout.addWidget(QLabel(f"{ingredient.price} ₽", self.widget), alignment=Qt.AlignmentFlag.AlignHCenter)
 
     def mousePressEvent(self, event: QMouseEvent):
+        """Обработчик нажатия на виджет, отправляет сигнал clicked
+        :param event:
+        :return None:
+        """
         if event.button() == Qt.MouseButton.LeftButton:
             self.clicked.emit(self.ingredient)

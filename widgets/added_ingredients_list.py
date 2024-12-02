@@ -7,6 +7,8 @@ from widgets.added_ingredient_widget import AddedIngredientWidget
 
 
 class AddedIngredientsList(QListWidget):
+    """Виджет списка добавленных ингредиентов"""
+
     itemRemoved = pyqtSignal(object)
 
     def __init__(self, parent):
@@ -15,6 +17,10 @@ class AddedIngredientsList(QListWidget):
         self.setSpacing(8)
 
     def add_ingredient(self, added_ingredient: AddedIngredient):
+        """Метод добавляет ингредиент в список
+        :param added_ingredient:
+        :return None:
+        """
         ingredient_widget = AddedIngredientWidget(
             self,
             state.all_ingredients_dict[added_ingredient.ingredient_id],
@@ -30,5 +36,9 @@ class AddedIngredientsList(QListWidget):
         self.setItemWidget(item, ingredient_widget)
 
     def remove_item(self, item):
+        """Метод удаляет ингредиент из списка
+        :param item:
+        :return None:
+        """
         self.takeItem(self.row(item.list_item))
         self.itemRemoved.emit(item.added_ingredient)
