@@ -7,6 +7,8 @@ from state import State
 
 
 class CompleteWidget(BaseScreen):
+    """Экран завершения заказа"""
+
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -27,6 +29,10 @@ class CompleteWidget(BaseScreen):
         self.vlayout.addSpacerItem(QSpacerItem(1, 50, QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Minimum))
 
     def activated(self):
+        """Обработчик экрана закрытия заказа: выводит картинку и номер заказа
+        :return None:
+        """
+
         self.img.setPixmap(
             state.State.pizza_image.scaled(
                 state.State.pizza_image.width() // 2,
@@ -39,8 +45,13 @@ class CompleteWidget(BaseScreen):
             f"над вашим шедевром\n"
             f"Номер заказа: {State.order.id}"
         )
-        super().activated()
+        # Завершаем заказ
         state.order_complete()
 
     def prev_clicked(self):
+        """Обработчик кнопки назад: поднимает сигнал next,
+        так как экран последний, приведёт к переходу на начальный экран
+        :return None:
+        """
+
         self.next.emit()

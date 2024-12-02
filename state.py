@@ -1,5 +1,5 @@
 from PyQt6.QtGui import QPixmap
-from win32ctypes.pywin32.pywintypes import datetime
+from datetime import datetime
 
 import db
 from db import update_model

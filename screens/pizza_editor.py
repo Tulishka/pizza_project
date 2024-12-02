@@ -17,6 +17,8 @@ from widgets.pizza_widget import PizzaWidget
 
 
 class PizzaEditorWidget(BaseScreen):
+    """Экран редактора пиццы"""
+
     def __init__(self, parent):
         super().__init__(parent)
         self.resize(self.parent().width(), self.parent().height())
@@ -144,35 +146,56 @@ class PizzaEditorWidget(BaseScreen):
         self.prev_button = None
 
     def setup_prev_button(self, btn):
+        """Обработчик для настройки кнопки назад, сохраняем кнопку, чтобы потом скрывать её
+        :param btn:
+        :return None:
+        """
         super().setup_prev_button(btn)
         self.prev_button = btn
 
     def activated(self):
+        """Обработчик открытия экрана редактора пиццы
+        :return None:
+        """
         if not current_pizza().added_ingredients:
             self.list_widget.clear()
         self.pizza_widget.setup_pizza_base()
         self.pizza_updated()
 
     def show_background(self):
+        """Метод показывает затемнённый фон и скрывает кнопку назад
+        :return None:
+        """
         self.background.show()
         self.prev_button.hide()
 
     def hide_background(self):
+        """Метод убирает затемнённый фон и делает видимой кнопку назад
+        :return None:
+        """
         self.background.hide()
         self.prev_button.show()
 
     def add_ingredient(self):
+        """Метод добавляет новый ингредиент в пиццу
+        :return None:
+        """
         self.show_background()
         try:
+            # Открытие диалога для выбора ингредиента
             ing_dlg = ChoiceIngredientDialog(self)
             if ing_dlg.exec() == 0:
                 return
 
+            # Открытие диалога для выбора опций (размер порции)
             opt_dlg = IngredientOptionsDialog(self, ing_dlg.ingredient)
             if opt_dlg.exec() == 0:
                 return
 
+            # Получим количество кусочков ингредиента для добавления
             ing_count = ing_dlg.ingredient.get_portion_size(opt_dlg.selected_size)
+
+            # Генерируем начальные позиции для всех новых кусочков
             positions = pos_gen.generate_positions(current_pizza(), ing_dlg.ingredient, ing_count)
 
             item = AddedIngredient(
@@ -184,6 +207,7 @@ class PizzaEditorWidget(BaseScreen):
                 position=positions
             )
             current_pizza().added_ingredients.append(item)
+            # Добавим новый ингредиент в список добавленных ингредиентов
             self.list_widget.add_ingredient(item)
             self.pizza_updated()
 
@@ -192,17 +216,27 @@ class PizzaEditorWidget(BaseScreen):
             self.hide_background()
 
     def order_click(self):
-        self.pizza_widget.angleSlider.hide()
-        capturedImage = self.pizza_widget.grab()
+        """Обработчик для кнопки заказать
+        :return None:
+        """
+        # Создание объекта заказа
         state.save_order(current_pizza(), state.current_pizza_total_cost())
 
+        # Сохранение изображения пиццы в файл и в state
+        self.pizza_widget.angleSlider.hide()
+        capturedImage = self.pizza_widget.grab()
         filename = f"{const.PIZZAS_PICTURES_DIR}/pizza_order_{state.State.order.id}_{randint(1000, 9999)}.png"
         capturedImage.save(filename)
         state.set_pizza_picture(filename, capturedImage)
 
+        # переход на следующий экран
         self.next.emit()
 
     def pizza_updated(self):
+        """Метод должен быть вызван после изменения объекта пиццы.
+        Обновляет элементы на экране
+        :return None:
+        """
         total_sum = state.current_pizza_total_cost()
         self.res_sum_label.setText(f"К оплате:\n{total_sum} ₽")
         self.pizza_widget.setup_components()
@@ -215,10 +249,16 @@ class PizzaEditorWidget(BaseScreen):
         self.update()
 
     def item_removed(self, remove_item: AddedIngredient):
+        """Обработчик удаления ингредиента, вызывается при удалении элемента
+        :return None:
+        """
         current_pizza().added_ingredients.remove(remove_item)
         self.pizza_updated()
 
     def prev_clicked(self):
+        """Обработчик нажатия кнопки назад, спрашивает подтверждение отмены пиццы
+        :return None:
+        """
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Подтвердите")
         msg_box.setText("Отменить создание пиццы?")

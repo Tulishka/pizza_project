@@ -3,13 +3,23 @@ from PyQt6.QtWidgets import QWidget, QPushButton
 
 
 class BaseScreen(QWidget):
+    """Базовый класс для экранов"""
+
     next = pyqtSignal()
     prev = pyqtSignal()
 
     def activated(self):
+        """Обработчик открытия экрана по умолчанию (вызывается при переходе на экран)
+        :return None:
+        """
         pass
 
     def setup_prev_button(self, prev_button: QPushButton):
+        """Настройка кнопки назад для экранов
+        :param prev_button:
+        :return None:
+        """
+
         prev_button.setText("< Назад")
         prev_button.setStyleSheet("""
             QPushButton {
@@ -28,4 +38,8 @@ class BaseScreen(QWidget):
         """)
 
     def prev_clicked(self):
+        """Вызывается при нажатии кнопки назад, по умолчанию поднимает сигнал prev
+        :return None:
+        """
+
         self.prev.emit()
