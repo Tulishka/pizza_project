@@ -59,6 +59,8 @@ all_ingredients_dict = db.get_model_cached(Ingredient)
 all_dough_dict = db.get_model_cached(DoughType)
 all_souses_dict = db.get_model_cached(Souse)
 
+print(all_souses_dict.values())
+
 
 def set_pizza_picture(filename, captured_image):
     """Функция сохраняет в state изображение пиццы
