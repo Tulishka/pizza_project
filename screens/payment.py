@@ -18,7 +18,7 @@ class PaymentWidget(BaseScreen):
             }
         """)
 
-        self.paymentApi = PaymentApi()
+        self.paymentApi = PaymentApi(self)
         self.paymentApi.paymentResult.connect(self.pay_done)
 
         self.vlayout = QVBoxLayout(self)
@@ -35,7 +35,6 @@ class PaymentWidget(BaseScreen):
         """Обработчик открытия экрана оплаты: показывает сумму и запускает оплату через API платёжной системы
         :return None:
         """
-
         self.price.setText(f"Оплатите {state.State.order.total_sum} ₽")
         self.paymentApi.start_pay(state.State.order.total_sum)
 
@@ -44,7 +43,6 @@ class PaymentWidget(BaseScreen):
         :param result: bool - True если платёж успешно выполнен
         :return None:
         """
-
         if result:
             self.next.emit()
 

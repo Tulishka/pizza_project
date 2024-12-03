@@ -35,8 +35,11 @@ class PizzaConstructor(QWidget):
         self.prev_button.hide()
         self.prev_button.clicked.connect(self.prev_clicked)
 
-        self.screens_cls: list[BaseScreen] = [WelcomeWidget, PizzaBaseWidget, PizzaEditorWidget, PaymentWidget,
-                                              CompleteWidget]
+        self.screens_cls: list[type(BaseScreen)] = [
+            WelcomeWidget, PizzaBaseWidget,
+            PizzaEditorWidget, PaymentWidget,
+            CompleteWidget
+        ]
         self.screens = {}
 
         prev = None

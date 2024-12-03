@@ -3,6 +3,7 @@ import os
 MAIN_WINDOW_WIDTH = 1024
 MAIN_WINDOW_HEIGHT = 728
 
+# Коэффициенты для пересчёта размера изображения пиццы
 PIZZA_SIZE_KOEF = {
     25: 0.625,
     30: 0.75,
