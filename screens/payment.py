@@ -7,6 +7,8 @@ from screens.base import BaseScreen
 
 
 class PaymentWidget(BaseScreen):
+    """Экран оплаты"""
+
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -16,7 +18,7 @@ class PaymentWidget(BaseScreen):
             }
         """)
 
-        self.paymentApi = PaymentApi()
+        self.paymentApi = PaymentApi(self)
         self.paymentApi.paymentResult.connect(self.pay_done)
 
         self.vlayout = QVBoxLayout(self)
@@ -30,14 +32,23 @@ class PaymentWidget(BaseScreen):
         self.vlayout.addSpacerItem(QSpacerItem(1, 100, QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Minimum))
 
     def activated(self):
-        print("start payment")
+        """Обработчик открытия экрана оплаты: показывает сумму и запускает оплату через API платёжной системы
+        :return None:
+        """
         self.price.setText(f"Оплатите {state.State.order.total_sum} ₽")
         self.paymentApi.start_pay(state.State.order.total_sum)
 
     def pay_done(self, result: bool):
+        """Обработчик ответа платёжной системы
+        :param result: bool - True если платёж успешно выполнен
+        :return None:
+        """
         if result:
             self.next.emit()
 
     def prev_clicked(self):
+        """Обработчик кнопки назад, отменяется оплата, и используется действие по умолчанию
+        :return None:
+        """
         self.paymentApi.cancel()
         super().prev_clicked()

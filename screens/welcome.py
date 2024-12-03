@@ -11,6 +11,8 @@ from screens.base import BaseScreen
 
 
 class WelcomeWidget(BaseScreen):
+    """Экран приветствия"""
+
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -56,5 +58,8 @@ class WelcomeWidget(BaseScreen):
         self.resize(self.parent().width(), self.parent().height())
 
     def start_click(self):
+        """Обработчик кнопки создать пиццу
+        :return None:
+        """
         state.new_order()
         self.next.emit()

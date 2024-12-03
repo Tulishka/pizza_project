@@ -11,6 +11,8 @@ from widgets.ingredient_widget import IngredientWidget
 
 
 class ChoiceIngredientDialog(QDialog):
+    """Диалог выбора ингредиента"""
+
     def __init__(self, parent):
         super().__init__(parent)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
@@ -89,7 +91,7 @@ class ChoiceIngredientDialog(QDialog):
 
         self.stack_layout = QStackedLayout(self)
         self.central_layout.addLayout(self.stack_layout)
-
+        # Создадим страницы ингредиентов для каждой категории
         for idx, category in enumerate(db.get_model_cached(model.IngredientCategory).values()):
             button = QPushButton(category.title, self)
             button.setObjectName("category")
@@ -106,7 +108,9 @@ class ChoiceIngredientDialog(QDialog):
             grid_layout.setSpacing(8)
 
             self.stack_layout.addWidget(grid_widget)
-            for i, ing in enumerate(ind for ind in state.all_ingredients_dict.values() if ind.category_id == category.id):
+            # Добавим ингридиенты этой категории
+            for i, ing in enumerate(
+                    ind for ind in state.all_ingredients_dict.values() if ind.category_id == category.id):
                 iw = IngredientWidget(self, ing)
                 iw.clicked.connect(self.ingredient_selected)
                 grid_layout.addWidget(iw, i // 4, i % 4)
@@ -115,11 +119,22 @@ class ChoiceIngredientDialog(QDialog):
         self.categories.buttonClicked.connect(self.category_clicked)
 
     def category_clicked(self, button):
+        """Обработчик выбора категории, переключает страницу ингредиентов
+        :param button:
+        :return None:
+        """
         self.stack_layout.setCurrentIndex(button.index)
 
     def cancel_click(self):
+        """Обработчик нажатия кнопки отмена
+        :return None:
+        """
         self.reject()
 
     def ingredient_selected(self, ingredient: Ingredient):
+        """
+        :param ingredient:
+        :return None:
+        """
         self.ingredient = ingredient
         self.accept()

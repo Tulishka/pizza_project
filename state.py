@@ -1,3 +1,5 @@
+"""Файл содержит функции для работы с текущим состоянием (текущая пицца, текущий заказ)"""
+
 from PyQt6.QtGui import QPixmap
 from datetime import datetime
 
@@ -8,6 +10,8 @@ from utils.enums import OrderStatus
 
 
 class State:
+    """Класс для хранения экземпляра пиццы и заказа, используется в качестве синглтона"""
+
     current_pizza: Pizza = Pizza(0, 1, 40, 1)
     order: Order = None
     pizza_image: QPixmap = None
@@ -19,16 +23,25 @@ def current_pizza() -> Pizza:
 
 
 def new_order():
+    """Обработчик создания нового заказа
+    :return None:
+    """
+    # Отмена незавершённых заказов
     db.cancel_uncompleted_orders()
+
+    # Создание и запись нового заказа
     State.order = Order(0, datetime.now().isoformat(), 0, 0, OrderStatus.NEW)
     db.insert_model(State.order)
 
 
-def new_pizza(dough_type: int, size: int, souse: int):
-    State.current_pizza = Pizza(0, dough_type, size, souse)
+def new_pizza(dough_type_id: int, size_cm: int, souse_id: int):
+    State.current_pizza = Pizza(0, dough_type_id, size_cm, souse_id)
 
 
 def current_pizza_total_cost() -> int:
+    """Функция расчёта итоговой стоимости пиццы
+    :return int:
+    """
     total_sum = db.get_base_price(current_pizza())
     for ingredient in current_pizza().added_ingredients:
         total_sum += all_ingredients_dict[ingredient.ingredient_id].get_portion_price(ingredient.portion_size)
@@ -36,6 +49,9 @@ def current_pizza_total_cost() -> int:
 
 
 def current_pizza_ingredients_count() -> int:
+    """Функция считает текущее количество ингредиентов в текущей пицце
+    :return int:
+    """
     return len(current_pizza().added_ingredients)
 
 
@@ -43,13 +59,25 @@ all_ingredients_dict = db.get_model_cached(Ingredient)
 all_dough_dict = db.get_model_cached(DoughType)
 all_souses_dict = db.get_model_cached(Souse)
 
+print(all_souses_dict.values())
 
-def set_pizza_picture(filename, capturedImage):
+
+def set_pizza_picture(filename, captured_image):
+    """Функция сохраняет в state изображение пиццы
+    :param filename:
+    :param captured_image:
+    :return None:
+    """
     State.pizza_image_file = filename
-    State.pizza_image = capturedImage
+    State.pizza_image = captured_image
 
 
-def save_order(pizza, total_sum):
+def save_order(pizza: Pizza, total_sum: int):
+    """Функция сохраняет пиццу в БД, обновляет и сохраняет заказ
+    :param pizza:
+    :param total_sum:
+    :return None:
+    """
     db.save_pizza(pizza)
     State.order.pizza_id = pizza.id
     State.order.total_sum = total_sum
@@ -57,5 +85,8 @@ def save_order(pizza, total_sum):
 
 
 def order_complete():
+    """Функция завершает заказ: устанавливает ему статус оплачен
+    :return None:
+    """
     State.order.status = OrderStatus.PAYED
     update_model(State.order)

@@ -13,6 +13,8 @@ PIZZA_SIZES = [25, 30, 35, 40]
 
 
 class PizzaBaseWidget(BaseScreen):
+    """Экран выбора основы пиццы (тип теста, размер, соус)"""
+
     def __init__(self, parent):
         super().__init__(parent)
         self.resize(self.parent().width(), self.parent().height())
@@ -105,23 +107,28 @@ class PizzaBaseWidget(BaseScreen):
         self.dough_group = QButtonGroup(self)
         self.dough_layout.setObjectName("dough_group")
 
+        # Создание кнопок выбора типа теста
         for dtype in get_model_cached(DoughType).values():
             button = QPushButton(dtype.title, self)
-            button.dough_id = dtype.id
             button.setObjectName("dough")
             button.setCheckable(True)
             self.dough_layout.addWidget(button)
             self.dough_group.addButton(button)
+            # Поместим в кнопку id типа теста
+            button.dough_id = dtype.id
 
         self.size_layout = QHBoxLayout(self)
         self.size_group = QButtonGroup(self)
+
+        # Создание кнопок выбора размера
         for size in PIZZA_SIZES:
             button = QPushButton(f'{size} см.', self)
             button.setObjectName("size")
-            button.pizza_size = size
             button.setCheckable(True)
             self.size_layout.addWidget(button)
             self.size_group.addButton(button)
+            # Поместим в кнопку размер
+            button.pizza_size = size
 
         self.souse_label = QLabel("Выбери соус:", self)
         font = QFont()
@@ -130,13 +137,16 @@ class PizzaBaseWidget(BaseScreen):
 
         self.souse_layout = QHBoxLayout(self)
         self.souse_group = QButtonGroup(self)
+
+        # Создание кнопок выбора вида соуса
         for souse in get_model_cached(Souse).values():
             button = QPushButton(souse.title, self)
-            button.souse_id = souse.id
             button.setObjectName("souses")
             button.setCheckable(True)
             self.souse_layout.addWidget(button)
             self.souse_group.addButton(button)
+            # Поместим в кнопку id соуса
+            button.souse_id = souse.id
 
         self.widget_layout.addLayout(self.dough_layout)
         self.widget_layout.addLayout(self.size_layout)
@@ -152,6 +162,10 @@ class PizzaBaseWidget(BaseScreen):
         self.widget_layout.addWidget(self.ok_button, alignment=Qt.AlignmentFlag.AlignRight)
 
     def ok_click(self):
+        """Обработчик нажатия кнопки ок
+        :return None:
+        """
+
         dough = self.dough_group.checkedButton()
         size = self.size_group.checkedButton()
         souse = self.souse_group.checkedButton()

@@ -2,6 +2,8 @@ import sqlite3
 
 
 class SqliteCm:
+    """Класс для открытия и закрытия соединения с БД, с поддержкой контекстного менеджера"""
+
     def __init__(self, db_name):
         self.con = None
         self.db_name = db_name

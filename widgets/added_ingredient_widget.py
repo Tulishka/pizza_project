@@ -6,9 +6,16 @@ from model import Ingredient, AddedIngredient
 
 
 class AddedIngredientWidget(QWidget):
+    """Виджет-представление ингредиента в списке добавленных ингредиентов"""
+
     removeRequest = pyqtSignal(object)
 
     def __init__(self, parent, ingredient: Ingredient, added_ingredient: AddedIngredient):
+        """
+        :param parent: родительский виджет
+        :param ingredient: объект ингредиента
+        :param added_ingredient: объект добавленный ингредиент
+        """
         super().__init__(parent)
         self.ingredient = ingredient
         self.added_ingredient = added_ingredient
@@ -45,15 +52,15 @@ class AddedIngredientWidget(QWidget):
         self.setObjectName("back")
 
         self.mlayout = QVBoxLayout(self)
-        self.mlayout.setContentsMargins(0,0,0,0)
+        self.mlayout.setContentsMargins(0, 0, 0, 0)
         self.widget = QWidget(self)
-        self.widget.setMaximumWidth(parent.width()-10)
+        self.widget.setMaximumWidth(parent.width() - 10)
         self.widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
 
         self.mlayout.addWidget(self.widget)
 
         self.hlayout = QHBoxLayout(self.widget)
-        self.hlayout.setContentsMargins(0,0,0,0)
+        self.hlayout.setContentsMargins(0, 0, 0, 0)
         self.hlayout.setSpacing(12)
 
         self.icon = QLabel(self.widget)
@@ -78,4 +85,6 @@ class AddedIngredientWidget(QWidget):
         self.list_item = None
 
     def remove_cliecked(self):
+        """Обработчик кнопки удаления ингредиента.
+        Отправляет сигнала, что пользователь хочет удалить ингредиент"""
         self.removeRequest.emit(self)

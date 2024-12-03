@@ -12,7 +12,14 @@ from utils.image_lib import get_image
 
 
 class PizzaComponent:
+    """Отображаемый кусочек ингредиента на пицце"""
+
     def __init__(self, image: QImage, ingredient_index: int, item_index: int):
+        """
+        :param image: изображение кусочка
+        :param ingredient_index: индекс ингредиента в списке ингредиентов
+        :param item_index: индекс кусочка (от 0 до количества в порции)
+        """
         self.src_image = image
         self.image = image
         self.ingredient_index = ingredient_index
@@ -20,7 +27,11 @@ class PizzaComponent:
 
         self.applied_angle = 0
 
-    def get_image(self, angle):
+    def get_image(self, angle: int) -> QImage:
+        """Метод возвращает изображение кусочка, повёрнутое на заданный угол
+        :param angle:
+        :return QImage:
+        """
         if self.applied_angle != angle:
             self.applied_angle = angle
             self.image = self.src_image.transformed(QTransform().rotate(angle))
@@ -29,6 +40,7 @@ class PizzaComponent:
 
 
 class PizzaWidget(QWidget):
+    """Виджет для отображения пиццы на экране редактора"""
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -44,17 +56,21 @@ class PizzaWidget(QWidget):
         self.angleSlider.setMinimum(-180)
         self.angleSlider.setMaximum(180)
         self.angleSlider.hide()
-        sw = 100
-        sh = 30
+        slider_width = 100
+        slider_height = 30
         self.angleSlider.setGeometry(
-            parent.width() // 2 - sw // 2,
+            parent.width() // 2 - slider_width // 2,
             parent.height() - 120,
-            sw, sh)
+            slider_width, slider_height)
         self.angleSlider.valueChanged.connect(self.slider_changed)
 
+        # Кусочки ингредиентов
         self.components = []
 
     def setup_pizza_base(self):
+        """Метод настройки базы пиццы, загружает и масштабирует картинки основы и соуса
+        :return None:
+        """
         w = int(const.PIZZA_MAX_SIZE_PIX * const.PIZZA_SIZE_KOEF[current_pizza().size])
         h = int(const.PIZZA_MAX_SIZE_PIX * const.PIZZA_SIZE_KOEF[current_pizza().size])
 
@@ -65,6 +81,9 @@ class PizzaWidget(QWidget):
         self.souse_img = self.souse_img.scaled(w, h)
 
     def setup_components(self):
+        """Наполняет список компонентов (кусочков) пиццы
+        :return None:
+        """
         self.components = []
         for ing_ind, ad_ing in enumerate(current_pizza().added_ingredients):
             ing = state.all_ingredients_dict[ad_ing.ingredient_id]
@@ -75,8 +94,11 @@ class PizzaWidget(QWidget):
         self.last_item = None
         self.angleSlider.hide()
 
-
     def paintEvent(self, event):
+        """Обработчик события отрисовки виджета, рисует пиццу
+        :param event:
+        :return None:
+        """
         qp = QPainter()
         qp.begin(self)
         cx, cy = self.width() // 2, self.height() // 2
@@ -88,30 +110,38 @@ class PizzaWidget(QWidget):
             x, y, angle = ad_ing.position[comp.item_index]
             img = comp.get_image(angle)
             w, h = img.width() / 2, img.height() / 2
-            x = x * const.PIZZA_MAX_DIAM_PIX / 40
-            y = y * const.PIZZA_MAX_DIAM_PIX / 40
+            x = x * const.PIZZA_MAX_DIAM_PIX / const.PIZZA_MAX_SIZE_CM
+            y = y * const.PIZZA_MAX_DIAM_PIX / const.PIZZA_MAX_SIZE_CM
             qp.drawImage(int(cx + x - w), int(cy + y - h), img)
 
         qp.end()
         super().paintEvent(event)
 
     def mousePressEvent(self, event):
+        """Обработчик нажатия мыши на поле пиццы
+        :param event:
+        :return None:
+        """
         if event.button() == Qt.MouseButton.LeftButton:
             cx, cy = self.width() // 2, self.height() // 2
             pos = event.position()
+
+            # Ищем кусочек, который находится под указателем мыши
             for comp in reversed(self.components):
                 ad_ing = current_pizza().added_ingredients[comp.ingredient_index]
                 x, y, angle = ad_ing.position[comp.item_index]
                 img = comp.get_image(angle)
 
-                x = x * const.PIZZA_MAX_DIAM_PIX / 40 - comp.image.width() / 2
-                y = y * const.PIZZA_MAX_DIAM_PIX / 40 - comp.image.height() / 2
+                x = x * const.PIZZA_MAX_DIAM_PIX / const.PIZZA_MAX_SIZE_CM - comp.image.width() / 2
+                y = y * const.PIZZA_MAX_DIAM_PIX / const.PIZZA_MAX_SIZE_CM - comp.image.height() / 2
 
                 ix, iy = int(pos.x() - x - cx), int(pos.y() - y - cy)
 
+                # проверяем, что координаты мыши указывают текущий кусочек
                 if (x + cx <= pos.x() <= x + cx + img.width() and
                         y + cy <= pos.y() <= y + cy + img.height() and
                         img.pixelColor(ix, iy).alpha() > 0):
+                    # захватываем подходящий кусочек для перемещения
                     self.dragging = comp
                     self.offset_x = pos.x() - x
                     self.offset_y = pos.y() - y
@@ -121,40 +151,57 @@ class PizzaWidget(QWidget):
                     break
 
     def mouseMoveEvent(self, event):
+        """Обработчик перемещения мыши по полю пиццы,
+        если есть захваченный кусочек (self.dragging) то изменяем его координаты"""
         if self.dragging:
             pos = event.position()
 
             x = int(pos.x() - self.offset_x)
             y = int(pos.y() - self.offset_y)
 
+            # Перевод координат в систему отсчета (0, 0) - центр пиццы
             x = x + self.dragging.image.width() / 2
             y = y + self.dragging.image.height() / 2
-            x = x / const.PIZZA_MAX_DIAM_PIX * 40
-            y = y / const.PIZZA_MAX_DIAM_PIX * 40
 
+            # Перевод координат из пикселей в сантиметры
+            x = x / const.PIZZA_MAX_DIAM_PIX * const.PIZZA_MAX_SIZE_CM
+            y = y / const.PIZZA_MAX_DIAM_PIX * const.PIZZA_MAX_SIZE_CM
+
+            # Проверка, что кусочек выходит за радиус пиццы
             item_radius = math.hypot(self.dragging.image.width() / 2, self.dragging.image.height() / 2)
-            item_radius = item_radius / const.PIZZA_MAX_DIAM_PIX * 40
-
+            item_radius = item_radius / const.PIZZA_MAX_DIAM_PIX * const.PIZZA_MAX_SIZE_CM
             max_radius = current_pizza().size / 2 - item_radius / 2
             cur_radius = math.hypot(x, y)
             if cur_radius > max_radius:
+                # Корректировка координат, если выходит за радиус
                 x = x / cur_radius * max_radius
                 y = y / cur_radius * max_radius
 
             ad_ing = current_pizza().added_ingredients[self.dragging.ingredient_index]
 
+            # Сохранение новых координат кусочка в добавленном ингредиенте
             ad_ing.position[self.dragging.item_index][0] = x
             ad_ing.position[self.dragging.item_index][1] = y
 
             self.update()
 
     def mouseReleaseEvent(self, event):
+        """Обработчик события, когда кнопка мыши отпущена,
+        если был захвачен кусочек, отпускаем его
+        :param event:
+        :return None:
+        """
         if event.button() == Qt.MouseButton.LeftButton:
             self.dragging = None
 
     def slider_changed(self):
+        """Обработчик изменения слайдера угла поворота.
+        :return None:
+        """
         slider = self.sender()
 
         if self.last_item is not None:
-            self.last_item[0].position[self.last_item[1]][2] = slider.value()
+            # Изменяем угол поворота для последнего захваченного кусочка
+            pizza_ingredient, piece_index = self.last_item
+            pizza_ingredient.position[piece_index][2] = slider.value()
             self.update()
