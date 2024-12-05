@@ -22,7 +22,7 @@ PIZZA_MAX_INGREDIENTS = {
     40: 15
 }
 
-APP_DIR = os.getcwd() + "/"
+APP_DIR = os.path.dirname(__file__) + "/../"
 
 PIZZAS_PICTURES_DIR = os.getcwd() + "/pizzas_pictures"
 os.makedirs(PIZZAS_PICTURES_DIR, exist_ok=True)
