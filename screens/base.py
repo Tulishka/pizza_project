@@ -29,7 +29,6 @@ class BaseScreen(QWidget):
                 border-radius: 15px;
                 padding: 10px;
                 font-size: 22px;
-                z-index:100;
             }        
             
             QPushButton:hover {
