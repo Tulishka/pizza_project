@@ -4,9 +4,9 @@ from PyQt6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QHBoxLayout, QButtonGroup, QMessageBox
 )
 
-import state
-from db import get_model_cached
-from model import DoughType, Souse
+from database import state
+from database.db import get_model_cached
+from database.model import DoughType, Souse
 from screens.base import BaseScreen
 
 PIZZA_SIZES = [25, 30, 35, 40]

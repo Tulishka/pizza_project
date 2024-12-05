@@ -1,8 +1,8 @@
 from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QListWidget, QListWidgetItem
 
-import state
-from model import AddedIngredient
+from database import state
+from database.model import AddedIngredient
 from widgets.added_ingredient_widget import AddedIngredientWidget
 
 

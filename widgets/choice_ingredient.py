@@ -2,11 +2,9 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QSizePolicy, QButtonGroup, \
     QGridLayout, QStackedLayout, QWidget
 
-import db
-import model
-import state
+from database import model, db, state
 
-from model import Ingredient
+from database.model import Ingredient
 from widgets.ingredient_widget import IngredientWidget
 
 

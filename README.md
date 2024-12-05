@@ -42,9 +42,9 @@
 #### Файлы
 
 * [pizza_project.py](pizza_project.py) - главный (запускаемый) файл проекта
-* [model.py](model.py) - классы модели данных
-* [db.py](db.py) - функции работы с БД
-* [payment_api.py](payment_api.py) - платежный шлюз (эмуляция)
+* [model.py](database/model.py) - классы модели данных
+* [db.py](database/db.py) - функции работы с БД
+* [payment_api.py](utils/payment_api.py) - платежный шлюз (эмуляция)
 * [pizza_project.spec](pizza_project.spec) - настройки PyInstaller для экспорта проекта
   в [исполняемый файл](dist/pizza_project.zip)
 * [requirements.txt](requirements.txt) - файл зависимостей

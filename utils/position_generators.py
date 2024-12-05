@@ -1,9 +1,8 @@
 import math
 import random
 
-import const
-from model import Ingredient, Pizza
-from utils import image_lib
+from database.model import Ingredient, Pizza
+from utils import image_lib, const
 
 
 class PositionGenerator:

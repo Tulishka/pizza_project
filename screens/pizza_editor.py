@@ -4,11 +4,11 @@ from PyQt6.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QMessageBox
 )
 
-import const
-import state
-from model import AddedIngredient
+from utils import const
+from database import state
+from database.model import AddedIngredient
 from screens.base import BaseScreen
-from state import current_pizza
+from database.state import current_pizza
 from utils.position_generators import pos_gen
 from widgets.added_ingredients_list import AddedIngredientsList
 from widgets.choice_ingredient import ChoiceIngredientDialog

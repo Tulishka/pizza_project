@@ -1,9 +1,9 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QHBoxLayout, QSpacerItem, QSizePolicy
 
-import state
+from database import state
 from screens.base import BaseScreen
-from state import State
+from database.state import State
 
 
 class CompleteWidget(BaseScreen):

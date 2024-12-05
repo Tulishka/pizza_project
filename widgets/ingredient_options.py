@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButt
     QSpacerItem
 
 from utils import image_lib
-from model import Ingredient
+from database.model import Ingredient
 
 
 class IngredientOptionsDialog(QDialog):

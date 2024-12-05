@@ -4,9 +4,7 @@ from PyQt6.QtWidgets import (
     QWidget, QApplication, QVBoxLayout, QStackedLayout, QSizePolicy, QPushButton
 )
 
-import state  # создать состояние
-
-import const
+from utils import const
 from screens.base import BaseScreen
 from screens.complete import CompleteWidget
 from screens.payment import PaymentWidget

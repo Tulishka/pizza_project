@@ -4,7 +4,7 @@ from functools import cache
 
 from PyQt6.QtGui import QPixmap, QImage
 
-import const
+from utils import const
 
 IMAGES_PATH = const.APP_DIR + "images/"
 

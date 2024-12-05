@@ -1,8 +1,8 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QVBoxLayout, QLabel, QSpacerItem, QSizePolicy
 
-import state
-from payment_api import PaymentApi
+from database import state
+from utils.payment_api import PaymentApi
 from screens.base import BaseScreen
 
 

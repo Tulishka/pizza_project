@@ -4,10 +4,9 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter, QImage, QTransform
 from PyQt6.QtWidgets import QWidget, QSlider
 
-import const
-import state
-from state import current_pizza
-from utils import image_lib
+from database import state
+from database.state import current_pizza
+from utils import image_lib, const
 from utils.image_lib import get_image
 
 

@@ -3,7 +3,7 @@ from PyQt6.QtGui import QMouseEvent
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSizePolicy
 
 from utils import image_lib
-from model import Ingredient
+from database.model import Ingredient
 
 
 class IngredientWidget(QWidget):

@@ -2,7 +2,7 @@ from PyQt6.QtCore import pyqtSignal
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QPushButton, QSpacerItem
 
 from utils import image_lib
-from model import Ingredient, AddedIngredient
+from database.model import Ingredient, AddedIngredient
 
 
 class AddedIngredientWidget(QWidget):
