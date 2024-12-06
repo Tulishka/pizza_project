@@ -116,6 +116,22 @@ class PizzaWidget(QWidget):
         qp.end()
         super().paintEvent(event)
 
+    def keyPressEvent(self, event):
+        """Обработчик нажатия кнопок
+        :param event:
+        :return None:
+        """
+        if event.key() == Qt.Key.Key_Q:
+            if self.last_item is not None:
+                self.angleSlider.setValue(self.angleSlider.value() - 25)
+                self.last_item_set_angle(self.angleSlider.value())
+        elif event.key() == Qt.Key.Key_E:
+            if self.last_item is not None:
+                self.angleSlider.setValue(self.angleSlider.value() + 25)
+                self.last_item_set_angle(self.angleSlider.value())
+        else:
+            super().keyPressEvent(event)
+
     def mousePressEvent(self, event):
         """Обработчик нажатия мыши на поле пиццы
         :param event:
@@ -198,9 +214,20 @@ class PizzaWidget(QWidget):
         :return None:
         """
         slider = self.sender()
+        self.last_item_set_angle(slider.value())
 
+
+    def last_item_set_angle(self, angle):
+        """Изменяем угол поворота для последнего захваченного кусочка
+        :param angle: угол в градусах
+        :return None:
+        """
         if self.last_item is not None:
-            # Изменяем угол поворота для последнего захваченного кусочка
             pizza_ingredient, piece_index = self.last_item
-            pizza_ingredient.position[piece_index][2] = slider.value()
+            pizza_ingredient.position[piece_index][2] = angle
             self.update()
+
+    def showEvent(self, event):
+        """Установим фокус, чтобы сразу работали кнопки"""
+        self.setFocus()
+        super().showEvent(event)
