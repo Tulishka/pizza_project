@@ -1,3 +1,11 @@
+"""Отдельный интерфейс для технолога, который может изменять в БД:
+* ингредиенты
+* тесто
+* соусы
+* категории
+* цена на основу
+"""
+
 import csv
 import sys
 from functools import partial
@@ -18,6 +26,8 @@ cr.insert_data()
 
 
 class NoEditIdModel(QSqlTableModel):
+    """Класс модели в которой запрещено редактирование первой колонки (id)"""
+
     def flags(self, index):
         if index.column() == 0:
             return Qt.ItemFlag.ItemIsSelectable | Qt.ItemFlag.ItemIsEnabled
@@ -25,6 +35,8 @@ class NoEditIdModel(QSqlTableModel):
 
 
 class PizzaTechnolog(QWidget):
+    """Окно-интерфейс для технолога"""
+
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Редактирование ингредиентов')
@@ -51,8 +63,8 @@ class PizzaTechnolog(QWidget):
         buttons = [
             ("Добавить нов.", self.add_row, 'alt+n'),
             ("Удалить строки", self.delete_rows, 'alt+d'),
-            ("Загрузить из CSV", self.load_from_cvs, 'alt+i'),
-            ("Сохранить в CVS", self.save_to_cvs, 'alt+e'),
+            ("Загрузить из CSV", self.load_from_csv, 'alt+i'),
+            ("Сохранить в CVS", self.save_to_csv, 'alt+e'),
         ]
 
         for title, func, key in buttons:
@@ -63,7 +75,6 @@ class PizzaTechnolog(QWidget):
 
         self.tab_widget = QTabWidget(self)
         self.tab_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-
 
         for idx, (title, table_name) in enumerate(models):
             shortcut = QShortcut(QKeySequence("Ctrl+" + str(idx + 1)), self)
@@ -95,6 +106,7 @@ class PizzaTechnolog(QWidget):
         self.current_model().insertRow(self.current_model().rowCount())
 
     def delete_rows(self):
+        """Метод для удаления выбранных строк текущей таблицы"""
         msg_box = QMessageBox()
         msg_box.setWindowTitle("Подтвердите")
         msg_box.setText("Удалить выбранные строки (может привести к не правильной работе программы)?")
@@ -111,42 +123,64 @@ class PizzaTechnolog(QWidget):
         model.submitAll()
         model.select()
 
-    def load_from_cvs(self):
+    def show_error(self, text):
+        """Метод для отображения ошибки
+        :param text: текст-описание ошибки
+        :return None:
+        """
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Ошибка")
+        msg_box.setText(text)
+        msg_box.setIcon(QMessageBox.Icon.Critical)
+        msg_box.exec()
+
+    def load_from_csv(self):
+        """Метод для загрузки (из CSV) дополнительных строк в текущую таблицу"""
         model = self.current_model()
         file_name, _ = QFileDialog.getOpenFileName(
             self, "Загрузить из CSV", model.tableName(), "CSV файлы (*.csv);;Все файлы (*)"
         )
         if file_name:
-            with open(file_name, newline='', encoding='utf-8') as csvfile:
-                reader = csv.reader(csvfile)
-                next(reader)
-                model.removeRows(0, model.rowCount())
-                for row in reader:
-                    model.insertRow(model.rowCount())
-                    for column, value in enumerate(row):
-                        if column != 0:
-                            model.setData(model.index(model.rowCount() - 1, column), value)
-                    model.submitAll()
-
+            try:
+                with open(file_name, newline='', encoding='utf-8') as csvfile:
+                    reader = csv.reader(csvfile)
+                    next(reader)
+                    model.removeRows(0, model.rowCount())
+                    for row in reader:
+                        model.insertRow(model.rowCount())
+                        for column, value in enumerate(row):
+                            if column != 0:
+                                model.setData(model.index(model.rowCount() - 1, column), value)
+                        model.submitAll()
+            except Exception as e:
+                self.show_error("Не удалось загрузить CSV: " + str(e))
             model.select()
 
-    def save_to_cvs(self):
+    def save_to_csv(self):
+        """Метод для сохранения (в CSV) строк из текущей таблицы"""
         model = self.current_model()
         file_name, _ = QFileDialog.getSaveFileName(
             self, "Сохранить в CSV", model.tableName(), "CSV Files (*.csv);;All Files (*)"
         )
         if file_name:
-            with open(file_name, mode='w', newline='', encoding='utf-8') as csvfile:
-                writer = csv.writer(csvfile)
-                headers = [model.headerData(i, Qt.Orientation.Horizontal) for i in range(model.columnCount())]
-                writer.writerow(headers)
-                for row in range(model.rowCount()):
-                    row_data = []
-                    for column in range(model.columnCount()):
-                        row_data.append(model.data(model.index(row, column)))
-                    writer.writerow(row_data)
+            try:
+                with open(file_name, mode='w', newline='', encoding='utf-8') as csvfile:
+                    writer = csv.writer(csvfile)
+                    headers = [model.headerData(i, Qt.Orientation.Horizontal) for i in range(model.columnCount())]
+                    writer.writerow(headers)
+                    for row in range(model.rowCount()):
+                        row_data = []
+                        for column in range(model.columnCount()):
+                            row_data.append(model.data(model.index(row, column)))
+                        writer.writerow(row_data)
+            except Exception as e:
+                self.show_error("Не удалось сохранить CSV: " + str(e))
 
     def shortcut_table(self, idx: int):
+        """Обработчик переключения закладки (текущей таблицы)
+        :param idx: - индекс закладки
+        :return None:
+        """
         self.tab_widget.setCurrentIndex(idx)
 
 
