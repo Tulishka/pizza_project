@@ -58,10 +58,10 @@ CREATE TABLE IF NOT EXISTS orders (
 
 CREATE TABLE IF NOT EXISTS base_prices (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    dought_tipe_id INTEGER NOT NULL,
+    dough_type_id INTEGER NOT NULL,
     souse_id INTEGER NOT NULL,
     size INTEGER NOT NULL,
     price INTEGER NOT NULL,
-    UNIQUE (dought_tipe_id,souse_id,size)
+    UNIQUE (dough_type_id,souse_id,size)
 );
 

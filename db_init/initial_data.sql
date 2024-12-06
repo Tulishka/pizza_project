@@ -33,7 +33,7 @@ INSERT OR IGNORE INTO souses (id, title, unit_weight, img)
     (1, 'Томатный', 1, 'tomato_souse.png'), 
     (2, 'Сливочный', 1, 'creamy_souse.png');
            
-INSERT OR IGNORE INTO base_prices (dought_tipe_id, souse_id, size, price)
+INSERT OR IGNORE INTO base_prices (dough_type_id, souse_id, size, price)
     VALUES 
     (1, 1, 25, 419),
     (1, 2, 25, 419),
