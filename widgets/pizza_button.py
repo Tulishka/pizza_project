@@ -1,7 +1,11 @@
+import os.path
+
 from PyQt6.QtCore import QUrl
 from PyQt6.QtMultimedia import QSoundEffect
 
 from PyQt6.QtWidgets import QPushButton
+
+from utils import const
 
 
 class PizzaButton(QPushButton):
@@ -13,7 +17,7 @@ class PizzaButton(QPushButton):
 
         if PizzaButton.button_sound is None:
             PizzaButton.button_sound = QSoundEffect()
-            PizzaButton.button_sound.setSource(QUrl.fromLocalFile("sounds/pop.wav"))
+            PizzaButton.button_sound.setSource(QUrl.fromLocalFile(os.path.realpath(const.APP_DIR)+"/sounds/pop.wav"))
 
         self.clicked.connect(self.play_sound)
 

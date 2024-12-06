@@ -5,7 +5,7 @@ a = Analysis(
     ['pizza_project.py'],
     pathex=[],
     binaries=[],
-    datas=[('images', 'images'), ('db_init', 'db_init')],
+    datas=[('images', 'images'), ('db_init', 'db_init'), ('sounds', 'sounds')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -32,6 +32,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='images/welcome_image5.png'
 )
 coll = COLLECT(
     exe,
