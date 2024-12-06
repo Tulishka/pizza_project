@@ -8,6 +8,8 @@ from database.db import update_model
 from database.model import Pizza, Ingredient, DoughType, Souse, Order
 from utils.enums import OrderStatus
 
+import database.create_db as cr
+
 
 class State:
     """Класс для хранения экземпляра пиццы и заказа, используется в качестве синглтона"""
@@ -84,7 +86,11 @@ def order_complete():
     State.order.status = OrderStatus.PAYED
     update_model(State.order)
 
+
 # чтение ингредиентов из БД
+cr.create_db()
+cr.insert_data()
+
 all_ingredients_dict = db.get_model_cached(Ingredient)
 all_dough_dict = db.get_model_cached(DoughType)
 all_souses_dict = db.get_model_cached(Souse)
