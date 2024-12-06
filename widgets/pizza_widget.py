@@ -163,6 +163,7 @@ class PizzaWidget(QWidget):
                     self.last_item = ad_ing, comp.item_index
                     self.angleSlider.setValue(angle - 360 if abs(angle) > 180 else angle)
                     self.angleSlider.show()
+                    self.angleSlider.setFocus()
                     break
 
     def mouseMoveEvent(self, event):
