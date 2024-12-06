@@ -48,16 +48,16 @@
 
 #### Файлы
 
-* [pizza_project.py](pizza_project.py) - главный (запускаемый) файл проекта
+* [pizza_project.py](screens/pizza_project.py) - главный (запускаемый) файл проекта
 * [model.py](database/model.py) - классы модели данных
 * [db.py](database/db.py) - функции работы с БД
 * [payment_api.py](utils/payment_api.py) - платежный шлюз (эмуляция)
-* [pizza_project.spec](pizza_project.spec) - настройки PyInstaller для экспорта проекта
-  в [исполняемый файл](dist/pizza_project.zip)
+* [pizza_project.spec](pizza_project.spec) - настройки PyInstaller для экспорта проекта в [исполняемый файл](dist/pizza_project.zip)
 * [requirements.txt](requirements.txt) - файл зависимостей
 
 #### Папки
 
+* [database](database) - папка содержит модули для работы с БД и моделями.
 * [db_init](db_init) - SQL скрипты для создания БД и начального заполнения
 * [docs](docs) - документация
 * [images](images) - картинки проекта
@@ -66,6 +66,7 @@
 * [widget](widget) - классы виджетов
 * [screens](screens) - классы экранов
 * [dist](dist) - папка с архивом и исполняемый файлом
+
 
 ### Запуск проекта
 
@@ -106,6 +107,11 @@ pip install -r requirements.txt
 ```bash
 python pizza_project.py
 ```
+для запуска интерфейса технолога:
+```bash
+python pizza_project.py technolog
+```
+
 
 ### Сборка исполняемого файла
 
@@ -133,6 +139,23 @@ pyinstaller pizza_project.spec
 
 ## Интерфейс технолога
 
+### Как запустить
+
+* запустить `pizza_project.py` с параметром `technolog`:
+  ```bash
+    python pizza_project.py technolog
+  ```
+* запустить исполняемый файл `pizza_project.exe` с параметром `technolog`:
+  ```bash
+    pizza_project.exe technolog
+  ```
+* запустить просто файл `technolog.py`
+  ```bash
+    python screens/technolog.py
+  ```
+> Не нужно запускать `technolog.py` в папке `screens`. Рабочая папка проекта - `pizza_project`. 
+
+
 ### Доступные таблицы БД
 * Ингредиенты
 * Виды теста
@@ -155,6 +178,8 @@ pyinstaller pizza_project.spec
 
 ### Горячие кнопки
 Для всех действий, а так же для переключения на различные закладки (таблицы), определены горячие кнопки (указаны в названии кнопки/закладки)
+
+
 
 ### Экран
 
