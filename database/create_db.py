@@ -31,14 +31,13 @@ def insert_data():
     """Вставка начальных данных в БД
     :return:
     """
-
-    with open(f"{SQL_SCRIPT_PATH}/initial_data.sql", encoding="utf-8") as file:
-        script = file.read()
-
     with get_db() as con:
         cur = con.cursor()
-        cur.executescript(script)
+        result = cur.execute("""SELECT COUNT(*) FROM ingredients""")
+        if result.fetchone()[0] > 0:
+            return
 
-
-create_db()
-insert_data()
+        with open(f"{SQL_SCRIPT_PATH}/initial_data.sql", encoding="utf-8") as file:
+            script = file.read()
+            cur = con.cursor()
+            cur.executescript(script)
