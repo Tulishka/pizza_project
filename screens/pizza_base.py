@@ -8,6 +8,7 @@ from database import state
 from database.db import get_model_cached
 from database.model import DoughType, Souse
 from screens.base import BaseScreen
+from widgets.pizza_button import PizzaButton
 
 PIZZA_SIZES = [25, 30, 35, 40]
 
@@ -109,7 +110,7 @@ class PizzaBaseWidget(BaseScreen):
 
         # Создание кнопок выбора типа теста
         for dtype in get_model_cached(DoughType).values():
-            button = QPushButton(dtype.title, self)
+            button = PizzaButton(dtype.title, self)
             button.setObjectName("dough")
             button.setCheckable(True)
             self.dough_layout.addWidget(button)
@@ -122,7 +123,7 @@ class PizzaBaseWidget(BaseScreen):
 
         # Создание кнопок выбора размера
         for size in PIZZA_SIZES:
-            button = QPushButton(f'{size} см.', self)
+            button = PizzaButton(f'{size} см.', self)
             button.setObjectName("size")
             button.setCheckable(True)
             self.size_layout.addWidget(button)
@@ -140,7 +141,7 @@ class PizzaBaseWidget(BaseScreen):
 
         # Создание кнопок выбора вида соуса
         for souse in get_model_cached(Souse).values():
-            button = QPushButton(souse.title, self)
+            button = PizzaButton(souse.title, self)
             button.setObjectName("souses")
             button.setCheckable(True)
             self.souse_layout.addWidget(button)
@@ -153,7 +154,7 @@ class PizzaBaseWidget(BaseScreen):
         self.widget_layout.addWidget(self.souse_label)
         self.widget_layout.addLayout(self.souse_layout)
 
-        self.ok_button = QPushButton("OK", self)
+        self.ok_button = PizzaButton("OK", self)
         self.ok_button.setMaximumWidth(100)
         self.ok_button.setMinimumWidth(100)
         self.ok_button.clicked.connect(self.ok_click)

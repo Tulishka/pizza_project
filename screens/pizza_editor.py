@@ -13,6 +13,7 @@ from utils.position_generators import pos_gen
 from widgets.added_ingredients_list import AddedIngredientsList
 from widgets.choice_ingredient import ChoiceIngredientDialog
 from widgets.ingredient_options import IngredientOptionsDialog
+from widgets.pizza_button import PizzaButton
 from widgets.pizza_widget import PizzaWidget
 
 
@@ -116,7 +117,7 @@ class PizzaEditorWidget(BaseScreen):
 
         self.add_ing_layout = QHBoxLayout(self)
         self.vlayout.addLayout(self.add_ing_layout)
-        self.add_button = QPushButton("+", self)
+        self.add_button = PizzaButton("+", self)
         self.add_button.clicked.connect(self.add_ingredient)
         self.remained_label = QLabel(f"ещё можно добавить\n{'00'} ингредиентов")
         self.remained_label.setObjectName('remained_label')
@@ -134,7 +135,7 @@ class PizzaEditorWidget(BaseScreen):
         self.res_sum_label.setObjectName("res_sum_label")
         self.order_layout.addWidget(self.res_sum_label)
 
-        self.order_button = QPushButton("Заказать", self)
+        self.order_button = PizzaButton("Заказать", self)
         self.order_button.setObjectName("order_button")
         self.order_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Maximum)
         self.order_button.setFixedHeight(100)

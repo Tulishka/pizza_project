@@ -11,6 +11,7 @@ from screens.payment import PaymentWidget
 from screens.pizza_base import PizzaBaseWidget
 from screens.pizza_editor import PizzaEditorWidget
 from screens.welcome import WelcomeWidget
+from widgets.pizza_button import PizzaButton
 
 
 class PizzaConstructor(QWidget):
@@ -27,7 +28,7 @@ class PizzaConstructor(QWidget):
         self.stack_layout = QStackedLayout(self)
         self.vlayout.addLayout(self.stack_layout)
 
-        self.prev_button = QPushButton("< Назад", self)
+        self.prev_button = PizzaButton("< Назад", self)
         self.prev_button.move(12, 12)
         self.prev_button.setMinimumSize(130, 50)
         self.prev_button.hide()

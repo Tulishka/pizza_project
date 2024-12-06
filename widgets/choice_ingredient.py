@@ -6,6 +6,7 @@ from database import model, db, state
 
 from database.model import Ingredient
 from widgets.ingredient_widget import IngredientWidget
+from widgets.pizza_button import PizzaButton
 
 
 class ChoiceIngredientDialog(QDialog):
@@ -91,7 +92,7 @@ class ChoiceIngredientDialog(QDialog):
         self.central_layout.addLayout(self.stack_layout)
         # Создадим страницы ингредиентов для каждой категории
         for idx, category in enumerate(db.get_model_cached(model.IngredientCategory).values()):
-            button = QPushButton(category.title, self)
+            button = PizzaButton(category.title, self)
             button.setObjectName("category")
             button.index = idx
 

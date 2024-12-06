@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButt
 
 from utils import image_lib
 from database.model import Ingredient
+from widgets.pizza_button import PizzaButton
 
 
 class IngredientOptionsDialog(QDialog):
@@ -69,12 +70,12 @@ class IngredientOptionsDialog(QDialog):
         self.img.setFixedSize(120, 90)
         self.img.setPixmap(image_lib.get_pixmap(ingredient.get_image_filename()).scaled(90, 90))
 
-        self.standard = QPushButton(f"Стандартная\n{ingredient.get_portion_size(0)} шт.")
+        self.standard = PizzaButton(f"Стандартная\n{ingredient.get_portion_size(0)} шт.")
         self.standard.setFixedWidth(190)
         self.standard.setCheckable(True)
         self.standard.setChecked(True)
 
-        self.big = QPushButton(f"Большая\n{ingredient.get_portion_size(1)} шт.")
+        self.big = PizzaButton(f"Большая\n{ingredient.get_portion_size(1)} шт.")
         self.big.setFixedWidth(190)
         self.big.setCheckable(True)
 
@@ -93,7 +94,7 @@ class IngredientOptionsDialog(QDialog):
         self.price = QLabel(self)
         self.price.setStyleSheet("""font-size: 24pt;""")
 
-        self.add = QPushButton("Добавить", self)
+        self.add = PizzaButton("Добавить", self)
         self.add.setStyleSheet("""font-size: 24pt;background: #6CE08F;""")
         self.add.setObjectName("add")
 

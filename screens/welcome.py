@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import (
 from utils import const
 from database import state
 from screens.base import BaseScreen
+from widgets.pizza_button import PizzaButton
 
 
 class WelcomeWidget(BaseScreen):
@@ -44,7 +45,7 @@ class WelcomeWidget(BaseScreen):
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         self.layout.addSpacerItem(self.verticalSpacer)
 
-        self.start_button = QPushButton("Создать пиццу мечты", self)
+        self.start_button = PizzaButton("Создать пиццу мечты", self)
 
         self.start_button.clicked.connect(self.start_click)
 
