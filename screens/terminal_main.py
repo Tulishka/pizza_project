@@ -1,7 +1,15 @@
+"""
+Приложение конструктора пиццы
+
+Порядок экранов:
+Приветствие -> Выбор основы -> Редактор пиццы -> Оплата -> Завершение -> (на начало)
+
+"""
+
 import sys
 
 from PyQt6.QtWidgets import (
-    QWidget, QApplication, QVBoxLayout, QStackedLayout, QSizePolicy, QPushButton
+    QWidget, QApplication, QVBoxLayout, QStackedLayout, QSizePolicy
 )
 
 from utils import const
