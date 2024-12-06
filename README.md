@@ -48,7 +48,9 @@
 
 #### Файлы
 
-* [pizza_project.py](screens/pizza_project.py) - главный (запускаемый) файл проекта
+* [pizza_project.py](pizza_project.py) - главный (запускаемый) файл проекта
+* [terminal_main.py](screens/terminal_main.py) - главный файл для терминала самообслуживания
+* [technolog_main.py](screens/technolog_main.py) - главный файл для экрана технолога
 * [model.py](database/model.py) - классы модели данных
 * [db.py](database/db.py) - функции работы с БД
 * [payment_api.py](utils/payment_api.py) - платежный шлюз (эмуляция)
@@ -73,6 +75,16 @@
 #### Вариант 1:
 
 [Скачать исполняемый файл](dist/pizza_project.zip)
+
+> Запуск терминала самообслуживания (конструктор пиццы)
+>   ```bash
+>    pizza_project.exe
+>  ```
+
+> Запуск интерфейса технолога
+>   ```bash
+>    pizza_project.exe technolog
+>  ```
 
 #### Вариант 2
 
@@ -104,13 +116,15 @@ pip install -r requirements.txt
 
 5. запустить проект
 
-```bash
-python pizza_project.py
-```
-для запуска интерфейса технолога:
-```bash
-python pizza_project.py technolog
-```
+> Запуск терминала самообслуживания (конструктор пиццы)
+>   ```bash
+>    python pizza_project.py
+>  ```
+
+> Запуск интерфейса технолога
+> ```bash
+> python pizza_project.py technolog
+> ```
 
 
 ### Сборка исполняемого файла
@@ -149,11 +163,6 @@ pyinstaller pizza_project.spec
   ```bash
     pizza_project.exe technolog
   ```
-* запустить просто файл `technolog.py`
-  ```bash
-    python screens/technolog.py
-  ```
-> Не нужно запускать `technolog.py` в папке `screens`. Рабочая папка проекта - `pizza_project`. 
 
 
 ### Доступные таблицы БД
