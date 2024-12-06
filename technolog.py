@@ -39,19 +39,21 @@ class PizzaTechnolog(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Редактирование ингредиентов')
+        self.setWindowTitle("Редактирование ингредиентов")
         self.setGeometry(300, 150, const.MAIN_WINDOW_WIDTH, const.MAIN_WINDOW_HEIGHT)
-        self.setStyleSheet("background-color: white")
+        # self.setStyleSheet("background-color: white")
 
         db = QSqlDatabase.addDatabase("QSQLITE")
         db.setDatabaseName("pizza_db.sqlite")
 
         models = [
-            ('Ингредиенты', "ingredients"),
-            ('Виды теста', "dough_types"),
-            ('Соусы', "souses"),
-            ('Категории ингредиентов', "categories"),
-            ('Цены на основы', "base_prices"),
+            ("Ингредиенты", "ingredients", (
+                "id", "уник.имя", "название", "Кол. кусоч в порц.", "ед. изм.", "цена", "id категории", "вес порц.",
+                "кол.во на складе", "метод авт. разм.")),
+            ("Виды теста", "dough_types", ("id", "название", "вес 1кв см, гр.", "файл с картинкой")),
+            ("Соусы", "souses", ("id", "название", "вес 1кв см, гр.", "файл с картинкой")),
+            ("Категории ингредиентов", "categories", ("id", "название")),
+            ("Цены на основы", "base_prices", ("id", "id теста", "id соуса", "размер, см.", "цена, руб")),
         ]
 
         self.vlayout = QVBoxLayout(self)
@@ -61,10 +63,10 @@ class PizzaTechnolog(QWidget):
         self.vlayout.addWidget(self.toolbar)
 
         buttons = [
-            ("Добавить нов.", self.add_row, 'alt+n'),
-            ("Удалить строки", self.delete_rows, 'alt+d'),
-            ("Загрузить из CSV", self.load_from_csv, 'alt+i'),
-            ("Сохранить в CVS", self.save_to_csv, 'alt+e'),
+            ("Добавить нов.", self.add_row, "alt+n"),
+            ("Удалить строки", self.delete_rows, "alt+d"),
+            ("Загрузить из CSV", self.load_from_csv, "alt+i"),
+            ("Сохранить в CVS", self.save_to_csv, "alt+e"),
         ]
 
         for title, func, key in buttons:
@@ -76,16 +78,20 @@ class PizzaTechnolog(QWidget):
         self.tab_widget = QTabWidget(self)
         self.tab_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
-        for idx, (title, table_name) in enumerate(models):
+        for idx, (title, table_name, columns) in enumerate(models):
             shortcut = QShortcut(QKeySequence("Ctrl+" + str(idx + 1)), self)
             shortcut.tab_index = idx
             shortcut.activated.connect(partial(self.shortcut_table, idx))
 
             model = NoEditIdModel()
             model.setTable(table_name)
+            for i, col_title in enumerate(columns):
+                model.setHeaderData(i, Qt.Orientation.Horizontal, col_title)
+
             model.select()
 
             tab = QTableView(self)
+            tab.horizontalHeader().setStyleSheet("QHeaderView::section { background-color: #4CAF50; color: white; }")
             tab.resize(self.width(), self.height())
             tab.setModel(model)
             tab.setEditTriggers(
@@ -142,7 +148,7 @@ class PizzaTechnolog(QWidget):
         )
         if file_name:
             try:
-                with open(file_name, newline='', encoding='utf-8') as csvfile:
+                with open(file_name, newline="", encoding="utf-8") as csvfile:
                     reader = csv.reader(csvfile)
                     next(reader)
                     model.removeRows(0, model.rowCount())
@@ -164,7 +170,7 @@ class PizzaTechnolog(QWidget):
         )
         if file_name:
             try:
-                with open(file_name, mode='w', newline='', encoding='utf-8') as csvfile:
+                with open(file_name, mode="w", newline="", encoding="utf-8") as csvfile:
                     writer = csv.writer(csvfile)
                     headers = [model.headerData(i, Qt.Orientation.Horizontal) for i in range(model.columnCount())]
                     writer.writerow(headers)
@@ -189,7 +195,7 @@ def exception_logger(*args):
     sys.__excepthook__(*args)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     sys.excepthook = exception_logger
     ex = PizzaTechnolog()
