@@ -53,7 +53,7 @@ def get_base_price(pizza: Pizza):
 
         res = cur.execute(f""" 
             SELECT price FROM base_prices
-            WHERE dought_tipe_id=? AND souse_id=? AND size=?
+            WHERE dough_type_id=? AND souse_id=? AND size=?
         """, (pizza.dough_type_id, pizza.souse_id, pizza.size)).fetchall()
 
     return res[0][0] if res else 0
