@@ -1,7 +1,7 @@
 from random import randint
 
 from PyQt6.QtWidgets import (
-    QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QMessageBox
+    QWidget, QPushButton, QVBoxLayout, QLabel, QSizePolicy, QHBoxLayout, QMessageBox, QListWidget
 )
 
 from utils import const
@@ -108,6 +108,10 @@ class PizzaEditorWidget(BaseScreen):
 
         self.list_widget = AddedIngredientsList(self)
         self.list_widget.itemRemoved.connect(self.item_removed)
+        self.list_widget.itemsOrdered.connect(self.items_ordered)
+        self.list_widget.setDragDropMode(QListWidget.DragDropMode.InternalMove)
+        self.list_widget.setAcceptDrops(True)
+
         self.vlayout.addWidget(self.list_widget)
 
         self.add_ing_layout = QHBoxLayout(self)
@@ -268,3 +272,14 @@ class PizzaEditorWidget(BaseScreen):
         if result == QMessageBox.StandardButton.Cancel:
             return
         super().prev_clicked()
+
+    def items_ordered(self):
+        """Обработчик события - изменения порядка ингредиентов"""
+        new_order = []
+        for i in range(self.list_widget.count()):
+            new_order.append(self.list_widget.itemWidget(self.list_widget.item(i)).added_ingredient)
+
+        current_pizza().added_ingredients = new_order
+
+        self.pizza_widget.setup_components()
+        self.update()

@@ -10,6 +10,7 @@ class AddedIngredientsList(QListWidget):
     """Виджет списка добавленных ингредиентов"""
 
     itemRemoved = pyqtSignal(object)
+    itemsOrdered = pyqtSignal()
 
     def __init__(self, parent):
         super().__init__(parent)
@@ -42,3 +43,12 @@ class AddedIngredientsList(QListWidget):
         """
         self.takeItem(self.row(item.list_item))
         self.itemRemoved.emit(item.added_ingredient)
+
+    def dropEvent(self, event):
+        """Обработчик события перетаскивания элемента.
+        Отправляет сигнал о том, что требуется обновить порядок элементов.
+        :event: объект события
+        :return None:
+        """
+        super().dropEvent(event)
+        self.itemsOrdered.emit()
