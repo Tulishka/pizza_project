@@ -132,6 +132,18 @@ class PizzaWidget(QWidget):
         else:
             super().keyPressEvent(event)
 
+
+    def wheelEvent(self, event):
+        """Обработчик события прокрутки (колеса мыши).
+        Меняем угол последнего кликнутого кусочка.
+        """
+        delta = event.angleDelta().y()
+        if self.last_item is not None:
+            self.angleSlider.setValue(self.angleSlider.value() + delta)
+            self.last_item_set_angle(self.angleSlider.value())
+            event.accept()
+
+
     def mousePressEvent(self, event):
         """Обработчик нажатия мыши на поле пиццы
         :param event:
